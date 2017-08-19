@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  DropDownMenu,
   MenuItem,
+  SelectField,
   Table,
   TableBody,
   TableHeader,
@@ -43,11 +43,11 @@ class ScheduleList extends React.PureComponent {
     const { sport } = this.state;
     return (
       <div>
-        <DropDownMenu value={sport} onChange={handleSportChange}>
+        <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
           {Object.keys(schedules).map(element => (
             <MenuItem key={element} value={element} primaryText={element} />
           ))}
-        </DropDownMenu>
+        </SelectField>
         <Table>
           <TableHeader displaySelectAll={false}>
             <TableRow>
