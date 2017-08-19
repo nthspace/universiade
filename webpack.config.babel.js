@@ -13,7 +13,7 @@ const plugins = [
     logo: './src/img/logo.png',
   }),
   new HtmlWebpackPlugin({
-    title: 'Vet',
+    title: '2017 世大運賽程資訊',
   }),
 ];
 if (process.env.NODE_ENV !== 'production') {
