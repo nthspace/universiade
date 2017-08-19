@@ -53,8 +53,10 @@ class ScheduleList extends React.PureComponent {
             <TableRow>
               <TableHeaderColumn>日期</TableHeaderColumn>
               <TableHeaderColumn>時間</TableHeaderColumn>
-              <TableHeaderColumn>內容</TableHeaderColumn>
+              <TableHeaderColumn>活動</TableHeaderColumn>
+              <TableHeaderColumn>性別</TableHeaderColumn>
               <TableHeaderColumn>地點</TableHeaderColumn>
+              <TableHeaderColumn>連結</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
@@ -62,8 +64,23 @@ class ScheduleList extends React.PureComponent {
               <TableRow>
                 <TableRowColumn>{schedules[sport][element].date}</TableRowColumn>
                 <TableRowColumn>{schedules[sport][element].time}</TableRowColumn>
-                <TableRowColumn>{schedules[sport][element].name}</TableRowColumn>
-                <TableRowColumn>{schedules[sport][element].gym}</TableRowColumn>
+                <TableRowColumn>{schedules[sport][element].event}</TableRowColumn>
+                <TableRowColumn>{schedules[sport][element].gender}</TableRowColumn>
+                <TableRowColumn>{schedules[sport][element].place}</TableRowColumn>
+                <TableRowColumn>
+                  {schedules[sport][element].link
+                    ? (
+                      <a
+                        href={schedules[sport][element].link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        購票
+                      </a>
+                    )
+                    : null
+                  }
+                </TableRowColumn>
               </TableRow>
             ))}
           </TableBody>
