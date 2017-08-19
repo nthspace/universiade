@@ -1,7 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { DropDownMenu, MenuItem } from 'material-ui';
+import {
+  DropDownMenu,
+  MenuItem,
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui';
 
 const propTypes = {
   schedules: PropTypes.object,
@@ -39,6 +48,26 @@ class ScheduleList extends React.PureComponent {
             <MenuItem key={element} value={element} primaryText={element} />
           ))}
         </DropDownMenu>
+        <Table>
+          <TableHeader displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn>日期</TableHeaderColumn>
+              <TableHeaderColumn>時間</TableHeaderColumn>
+              <TableHeaderColumn>內容</TableHeaderColumn>
+              <TableHeaderColumn>地點</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {sport && Object.keys(schedules[sport]).map(element => (
+              <TableRow>
+                <TableRowColumn>{schedules[sport][element].date}</TableRowColumn>
+                <TableRowColumn>{schedules[sport][element].time}</TableRowColumn>
+                <TableRowColumn>{schedules[sport][element].name}</TableRowColumn>
+                <TableRowColumn>{schedules[sport][element].gym}</TableRowColumn>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     );
   }
