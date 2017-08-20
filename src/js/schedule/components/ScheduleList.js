@@ -42,6 +42,10 @@ const defaultProps = {
   },
 };
 
+const toolbarBackgroundColor = 'rgb(0, 188, 212)';
+const selectFieldLabelColor = 'rgba(255, 255, 255, 0.9)';
+const textFieldInputColor = 'rgba(255, 255, 255, 0.9)';
+
 const history = createHistory();
 
 const generateId = ele =>
@@ -96,11 +100,17 @@ class ScheduleList extends React.PureComponent {
       <div>
         <Toolbar
           style={{
+            backgroundColor: toolbarBackgroundColor,
             marginBottom: '30px',
           }}
         >
           <ToolbarGroup>
-            <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
+            <SelectField
+              labelStyle={{ color: selectFieldLabelColor }}
+              hintText="運動類型"
+              value={sport}
+              onChange={handleSportChange}
+            >
               {Object.keys(schedules).map(element => (
                 <MenuItem key={element} value={element} primaryText={element} />
               ))}
@@ -109,7 +119,12 @@ class ScheduleList extends React.PureComponent {
           {sport && schedules[sport]
             ? (
               <ToolbarGroup>
-                <SelectField hintText="日期" value={date} onChange={handleDateChange}>
+                <SelectField
+                  labelStyle={{ color: selectFieldLabelColor }}
+                  hintText="日期"
+                  value={date}
+                  onChange={handleDateChange}
+                >
                   <MenuItem value={null} />
                   {schedules[sport].reduce((accumulator, value) => {
                     if (!accumulator.includes(value.date)) {
@@ -127,7 +142,12 @@ class ScheduleList extends React.PureComponent {
           {sport && schedules[sport]
             ? (
               <ToolbarGroup>
-                <SelectField hintText="地點" value={place} onChange={handlePlaceChange}>
+                <SelectField
+                  labelStyle={{ color: selectFieldLabelColor }}
+                  hintText="地點"
+                  value={place}
+                  onChange={handlePlaceChange}
+                >
                   <MenuItem value={null} />
                   {schedules[sport].reduce((accumulator, value) => {
                     if (!accumulator.includes(value.place)) {
@@ -145,7 +165,12 @@ class ScheduleList extends React.PureComponent {
           {sport && schedules[sport]
             ? (
               <ToolbarGroup>
-                <TextField hintText="搜尋活動內容" value={event} onChange={handleEventChange} />
+                <TextField
+                  inputStyle={{ color: textFieldInputColor }}
+                  hintText="搜尋活動內容"
+                  value={event}
+                  onChange={handleEventChange}
+                />
               </ToolbarGroup>
             )
             : null
