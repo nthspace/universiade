@@ -7,38 +7,14 @@ import * as ApiUtil from '../../ApiUtil';
 
 
 class TicketLink extends PureComponent {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      soldOut: false,
-    }
-  }
-
-  componentDidMount() {
-    const { link } = this.props;
-
-    if (link) {
-      ApiUtil.get(link)
-        .then(response => response.text())
-        .then((text) => {
-          if (text.startsWith('<script')) {
-            this.setState({
-              soldOut: true,
-            });
-          }
-        });
-    }
-  }
-
   render() {
-    const { link } = this.props;
+    const { link, soldOut } = this.props;
 
     if (!link) {
       return null;
     }
 
-    const label = this.state.soldOut ? '已售罄' : '購票';
+    const label = soldOut ? '已售罄' : '購票';
 
     return (
       <RaisedButton
@@ -47,7 +23,7 @@ class TicketLink extends PureComponent {
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        disabled={this.state.soldOut}
+        disabled={soldOut}
       />
     );
   }
@@ -55,6 +31,7 @@ class TicketLink extends PureComponent {
 
 TicketLink.propTypes = {
   link: PropTypes.string.isRequired,
+  soldOut: PropTypes.bool.isRequired,
 };
 
 export default TicketLink;
