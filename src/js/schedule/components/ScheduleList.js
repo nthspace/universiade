@@ -79,7 +79,10 @@ class ScheduleList extends React.PureComponent {
               <TableHeaderColumn>連結</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+          <TableBody
+            displayRowCheckbox={false}
+            showRowHover
+          >
             {sport && schedules[sport] && Object.keys(schedules[sport]).map(element => (
               <TableRow
                 key={generateId(schedules[sport][element])}
