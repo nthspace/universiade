@@ -11,6 +11,7 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn,
+  TextField,
 } from 'material-ui';
 
 import TicketLink from './TicketLink';
@@ -18,6 +19,7 @@ import TicketLink from './TicketLink';
 const propTypes = {
   schedules: PropTypes.object,
   date: PropTypes.string,
+  event: PropTypes.string,
   place: PropTypes.string,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
@@ -29,6 +31,7 @@ const propTypes = {
 const defaultProps = {
   schedules: {},
   date: null,
+  event: '',
   place: null,
   match: {
     params: {
@@ -48,10 +51,12 @@ class ScheduleList extends React.PureComponent {
 
     this.state = {
       date: props.date,
+      event: props.event,
       place: props.place,
     };
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleEventChange = this.handleEventChange.bind(this);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
   }
 
@@ -68,6 +73,13 @@ class ScheduleList extends React.PureComponent {
     });
   }
 
+  handleEventChange(event, value) {
+    console.log(value);
+    this.setState({
+      event: value,
+    });
+  }
+
   handlePlaceChange(event, key, value) {
     this.setState({
       place: value,
@@ -75,10 +87,10 @@ class ScheduleList extends React.PureComponent {
   }
 
   render() {
-    const { handleSportChange, handleDateChange, handlePlaceChange } = this;
+    const { handleSportChange, handleDateChange, handleEventChange, handlePlaceChange } = this;
     const { schedules } = this.props;
     const { sport } = this.props.match.params;
-    const { date, place } = this.state;
+    const { date, event, place } = this.state;
     return (
       <div>
         <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
@@ -118,6 +130,12 @@ class ScheduleList extends React.PureComponent {
           )
           : null
         }
+        {sport && schedules[sport]
+          ? (
+            <TextField hintText="搜尋活動內容" value={event} onChange={handleEventChange} />
+          )
+          : null
+        }
         <Table height={500}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
@@ -135,6 +153,7 @@ class ScheduleList extends React.PureComponent {
           >
             {sport && schedules[sport] && Object.keys(schedules[sport])
               .filter(element => !date || schedules[sport][element].date === date)
+              .filter(element => !event || schedules[sport][element].event.includes(event))
               .filter(element => !place || schedules[sport][element].place === place)
               .map(element => (
                 <TableRow>
