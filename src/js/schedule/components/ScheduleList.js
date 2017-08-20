@@ -12,6 +12,8 @@ import {
   TableRow,
   TableRowColumn,
   TextField,
+  Toolbar,
+  ToolbarGroup,
 } from 'material-ui';
 
 import TicketLink from './TicketLink';
@@ -74,7 +76,6 @@ class ScheduleList extends React.PureComponent {
   }
 
   handleEventChange(event, value) {
-    console.log(value);
     this.setState({
       event: value,
     });
@@ -93,50 +94,64 @@ class ScheduleList extends React.PureComponent {
     const { date, event, place } = this.state;
     return (
       <div>
-        <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
-          {Object.keys(schedules).map(element => (
-            <MenuItem key={element} value={element} primaryText={element} />
-          ))}
-        </SelectField>
-        {sport && schedules[sport]
-          ? (
-            <SelectField hintText="日期" value={date} onChange={handleDateChange}>
-              <MenuItem value={null} />
-              {schedules[sport].reduce((accumulator, value) => {
-                if (!accumulator.includes(value.date)) {
-                  accumulator.push(value.date);
-                }
-                return accumulator;
-              }, []).map(element => (
+        <Toolbar
+          style={{
+            marginBottom: '30px',
+          }}
+        >
+          <ToolbarGroup>
+            <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
+              {Object.keys(schedules).map(element => (
                 <MenuItem key={element} value={element} primaryText={element} />
               ))}
             </SelectField>
-          )
-          : null
-        }
-        {sport && schedules[sport]
-          ? (
-            <SelectField hintText="地點" value={place} onChange={handlePlaceChange}>
-              <MenuItem value={null} />
-              {schedules[sport].reduce((accumulator, value) => {
-                if (!accumulator.includes(value.place)) {
-                  accumulator.push(value.place);
-                }
-                return accumulator;
-              }, []).map(element => (
-                <MenuItem key={element} value={element} primaryText={element} />
-              ))}
-            </SelectField>
-          )
-          : null
-        }
-        {sport && schedules[sport]
-          ? (
-            <TextField hintText="搜尋活動內容" value={event} onChange={handleEventChange} />
-          )
-          : null
-        }
-        <Table height={500}>
+          </ToolbarGroup>
+          {sport && schedules[sport]
+            ? (
+              <ToolbarGroup>
+                <SelectField hintText="日期" value={date} onChange={handleDateChange}>
+                  <MenuItem value={null} />
+                  {schedules[sport].reduce((accumulator, value) => {
+                    if (!accumulator.includes(value.date)) {
+                      accumulator.push(value.date);
+                    }
+                    return accumulator;
+                  }, []).map(element => (
+                    <MenuItem key={element} value={element} primaryText={element} />
+                  ))}
+                </SelectField>
+              </ToolbarGroup>
+            )
+            : null
+          }
+          {sport && schedules[sport]
+            ? (
+              <ToolbarGroup>
+                <SelectField hintText="地點" value={place} onChange={handlePlaceChange}>
+                  <MenuItem value={null} />
+                  {schedules[sport].reduce((accumulator, value) => {
+                    if (!accumulator.includes(value.place)) {
+                      accumulator.push(value.place);
+                    }
+                    return accumulator;
+                  }, []).map(element => (
+                    <MenuItem key={element} value={element} primaryText={element} />
+                  ))}
+                </SelectField>
+              </ToolbarGroup>
+            )
+            : null
+          }
+          {sport && schedules[sport]
+            ? (
+              <ToolbarGroup>
+                <TextField hintText="搜尋活動內容" value={event} onChange={handleEventChange} />
+              </ToolbarGroup>
+            )
+            : null
+          }
+        </Toolbar>
+        <Table height="500px">
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn>日期</TableHeaderColumn>
@@ -156,7 +171,7 @@ class ScheduleList extends React.PureComponent {
               .filter(element => !event || schedules[sport][element].event.includes(event))
               .filter(element => !place || schedules[sport][element].place === place)
               .map(element => (
-                <TableRow>
+                <TableRow key={generateId(schedules[sport][element])}>
                   <TableRowColumn>{schedules[sport][element].date}</TableRowColumn>
                   <TableRowColumn>{schedules[sport][element].time}</TableRowColumn>
                   <TableRowColumn>{schedules[sport][element].event}</TableRowColumn>
