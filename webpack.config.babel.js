@@ -98,6 +98,13 @@ export default {
           },
         ],
       },
+      {
+        test: /\.(png|jpe?g|ico|svg|gif)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]',
+        },
+      },
     ],
   },
   plugins,

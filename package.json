@@ -9,6 +9,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "file-loader": "^0.11.2",
     "history": "^4.6.1",
     "material-ui": "^0.19.0",
     "prop-types": "^15.5.8",
