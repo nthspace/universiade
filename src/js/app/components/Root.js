@@ -30,7 +30,8 @@ const styles = {
   },
   button: {
     width: '300px',
-    marginTop: '20px',
+    marginTop: '50px',
+    marginBottom: '50px',
   },
   divider: {
     margin: '16px 0',
@@ -51,18 +52,6 @@ const Root = () => (
     <div
       style={styles.divider}
     />
-    <div
-      style={styles.contentContainer}
-    >
-      <h3>因為種種原因，所以我們希望這一切可以變得更好</h3>
-      <div
-        style={styles.content}
-      >
-        {MOTIVATION_URLS.map(url => (
-          <img alt="motivation" key={url} src={url} height="400px" />
-        ))}
-      </div>
-    </div>
     <div>
       <RaisedButton
         href="./#/schedule"
@@ -73,6 +62,18 @@ const Root = () => (
           fontSize: '20px',
         }}
       />
+    </div>
+    <div
+      style={styles.contentContainer}
+    >
+      <h3>因為種種原因，我們希望這一切可以更好</h3>
+      <div
+        style={styles.content}
+      >
+        {MOTIVATION_URLS.map(url => (
+          <img alt="motivation" key={url} src={url} height="400px" />
+        ))}
+      </div>
     </div>
   </div>
 );
