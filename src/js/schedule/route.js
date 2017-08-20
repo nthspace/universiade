@@ -11,8 +11,8 @@ const propTypes = {
 
 const route = ({ match }) => (
   <Switch>
-    <Route exact path={match.url} component={Root} />
-    <Redirect to={match.url} />
+    <Route path={`${match.url}/:sport`} component={Root} />
+    <Redirect to={`${match.url}/籃球`} />
   </Switch>
 );
 
