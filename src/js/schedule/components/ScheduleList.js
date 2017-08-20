@@ -15,11 +15,24 @@ import {
 const propTypes = {
   schedules: PropTypes.object,
   sport: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      sport: PropTypes.string,
+    }),
+  }),
 };
 const defaultProps = {
   schedules: {},
   sport: null,
+  match: {
+    params: {
+      sport: '',
+    },
+  },
 };
+
+const generateId = ele =>
+  `${ele.date}-${ele.event}-${ele.place}-${ele.time}`;
 
 class ScheduleList extends React.PureComponent {
   constructor(props) {
@@ -40,7 +53,7 @@ class ScheduleList extends React.PureComponent {
   render() {
     const { handleSportChange } = this;
     const { schedules } = this.props;
-    const { sport } = this.state;
+    const { sport } = this.props.match.params;
     return (
       <div>
         <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
@@ -60,8 +73,10 @@ class ScheduleList extends React.PureComponent {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
-            {sport && Object.keys(schedules[sport]).map(element => (
-              <TableRow>
+            {sport && schedules[sport] && Object.keys(schedules[sport]).map(element => (
+              <TableRow
+                key={generateId(schedules[sport][element])}
+              >
                 <TableRowColumn>{schedules[sport][element].date}</TableRowColumn>
                 <TableRowColumn>{schedules[sport][element].time}</TableRowColumn>
                 <TableRowColumn>{schedules[sport][element].event}</TableRowColumn>
@@ -88,7 +103,7 @@ class ScheduleList extends React.PureComponent {
       </div>
     );
   }
-};
+}
 
 ScheduleList.propTypes = propTypes;
 ScheduleList.defaultProps = defaultProps;
