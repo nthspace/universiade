@@ -69,7 +69,7 @@ class ScheduleList extends React.PureComponent {
           ))}
         </SelectField>
         <Table>
-          <TableHeader displaySelectAll={false}>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn>日期</TableHeaderColumn>
               <TableHeaderColumn>時間</TableHeaderColumn>
