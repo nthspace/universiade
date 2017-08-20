@@ -17,7 +17,8 @@ import TicketLink from './TicketLink';
 
 const propTypes = {
   schedules: PropTypes.object,
-  sport: PropTypes.string,
+  date: PropTypes.string,
+  place: PropTypes.string,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
     params: PropTypes.shape({
@@ -27,7 +28,8 @@ const propTypes = {
 };
 const defaultProps = {
   schedules: {},
-  sport: null,
+  date: null,
+  place: null,
   match: {
     params: {
       sport: '',
@@ -45,9 +47,12 @@ class ScheduleList extends React.PureComponent {
     super(props);
 
     this.state = {
-      sport: props.sport,
+      date: props.date,
+      place: props.place,
     };
     this.handleSportChange = this.handleSportChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handlePlaceChange = this.handlePlaceChange.bind(this);
   }
 
   handleSportChange(event, key, value) {
@@ -57,10 +62,23 @@ class ScheduleList extends React.PureComponent {
     history.push(pushLocation);
   }
 
+  handleDateChange(event, key, value) {
+    this.setState({
+      date: value,
+    });
+  }
+
+  handlePlaceChange(event, key, value) {
+    this.setState({
+      place: value,
+    });
+  }
+
   render() {
-    const { handleSportChange } = this;
+    const { handleSportChange, handleDateChange, handlePlaceChange } = this;
     const { schedules } = this.props;
     const { sport } = this.props.match.params;
+    const { date, place } = this.state;
     return (
       <div>
         <SelectField hintText="運動類型" value={sport} onChange={handleSportChange}>
@@ -68,6 +86,38 @@ class ScheduleList extends React.PureComponent {
             <MenuItem key={element} value={element} primaryText={element} />
           ))}
         </SelectField>
+        {sport && schedules[sport]
+          ? (
+            <SelectField hintText="日期" value={date} onChange={handleDateChange}>
+              <MenuItem value={null} />
+              {schedules[sport].reduce((accumulator, value) => {
+                if (!accumulator.includes(value.date)) {
+                  accumulator.push(value.date);
+                }
+                return accumulator;
+              }, []).map(element => (
+                <MenuItem key={element} value={element} primaryText={element} />
+              ))}
+            </SelectField>
+          )
+          : null
+        }
+        {sport && schedules[sport]
+          ? (
+            <SelectField hintText="地點" value={place} onChange={handlePlaceChange}>
+              <MenuItem value={null} />
+              {schedules[sport].reduce((accumulator, value) => {
+                if (!accumulator.includes(value.place)) {
+                  accumulator.push(value.place);
+                }
+                return accumulator;
+              }, []).map(element => (
+                <MenuItem key={element} value={element} primaryText={element} />
+              ))}
+            </SelectField>
+          )
+          : null
+        }
         <Table height={500}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
@@ -83,20 +133,21 @@ class ScheduleList extends React.PureComponent {
             displayRowCheckbox={false}
             showRowHover
           >
-            {sport && schedules[sport] && Object.keys(schedules[sport]).map(element => (
-              <TableRow
-                key={generateId(schedules[sport][element])}
-              >
-                <TableRowColumn>{schedules[sport][element].date}</TableRowColumn>
-                <TableRowColumn>{schedules[sport][element].time}</TableRowColumn>
-                <TableRowColumn>{schedules[sport][element].event}</TableRowColumn>
-                <TableRowColumn>{schedules[sport][element].gender}</TableRowColumn>
-                <TableRowColumn>{schedules[sport][element].place}</TableRowColumn>
-                <TableRowColumn>
-                  <TicketLink link={schedules[sport][element].link} />
-                </TableRowColumn>
-              </TableRow>
-            ))}
+            {sport && schedules[sport] && Object.keys(schedules[sport])
+              .filter(element => !date || schedules[sport][element].date === date)
+              .filter(element => !place || schedules[sport][element].place === place)
+              .map(element => (
+                <TableRow>
+                  <TableRowColumn>{schedules[sport][element].date}</TableRowColumn>
+                  <TableRowColumn>{schedules[sport][element].time}</TableRowColumn>
+                  <TableRowColumn>{schedules[sport][element].event}</TableRowColumn>
+                  <TableRowColumn>{schedules[sport][element].gender}</TableRowColumn>
+                  <TableRowColumn>{schedules[sport][element].place}</TableRowColumn>
+                  <TableRowColumn>
+                    <TicketLink link={schedules[sport][element].link} />
+                  </TableRowColumn>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
