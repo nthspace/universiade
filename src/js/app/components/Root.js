@@ -4,6 +4,11 @@ import {
 } from 'material-ui';
 
 const BANNER_URL = require('../../../img/banner.png');
+const MOTIVATION_URLS = [
+  require('../../../img/motivation-01.png'),
+  require('../../../img/motivation-02.png'),
+  require('../../../img/motivation-03.png'),
+];
 
 const styles = {
   root: {
@@ -18,8 +23,14 @@ const styles = {
     alignItems: 'center',
     minHeight: '33vh',
   },
+  content: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'space-between',
+  },
   button: {
     width: '300px',
+    marginTop: '20px',
   },
   divider: {
     margin: '16px 0',
@@ -33,6 +44,7 @@ const styles = {
 const Root = () => (
   <div style={styles.root}>
     <img
+      alt="banner"
       src={BANNER_URL}
       width="100%"
     />
@@ -42,15 +54,18 @@ const Root = () => (
     <div
       style={styles.contentContainer}
     >
+      <h3>因為種種原因，所以我們希望這一切可以變得更好</h3>
       <div
         style={styles.content}
       >
-      文案你在哪～～
+        {MOTIVATION_URLS.map(url => (
+          <img alt="motivation" key={url} src={url} height="400px" />
+        ))}
       </div>
     </div>
     <div>
       <RaisedButton
-        href="/#/schedule"
+        href="./#/schedule"
         label={'找賽程買票去'}
         primary
         style={styles.button}
