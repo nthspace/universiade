@@ -68,7 +68,7 @@ class ScheduleList extends React.PureComponent {
             <MenuItem key={element} value={element} primaryText={element} />
           ))}
         </SelectField>
-        <Table>
+        <Table height={500}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn>日期</TableHeaderColumn>
