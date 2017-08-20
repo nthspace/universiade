@@ -53,6 +53,16 @@ const history = createHistory();
 const generateId = ele =>
   `${ele.date}-${ele.event}-${ele.place}-${ele.time}`;
 
+const getFetchLinkList = (newLinkList, soldOutDict) => {
+  const previousLinkList = Object.keys(soldOutDict);
+  const linkList = newLinkList.filter(
+    link => !previousLinkList.includes(link),
+  );
+
+  const set = new Set(linkList);
+  return Array.from(set);
+};
+
 class ScheduleList extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -65,7 +75,6 @@ class ScheduleList extends React.PureComponent {
     };
 
     this.singleLinkPromise = this.singleLinkPromise.bind(this);
-    this.getFetchLinkList = this.getFetchLinkList.bind(this);
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleEventChange = this.handleEventChange.bind(this);
@@ -78,8 +87,10 @@ class ScheduleList extends React.PureComponent {
 
     if (!schedules[sport]) return;
 
+    const { soldOutDict } = this.state;
+
     const linkList = schedules[sport].map(ele => ele.link);
-    const fetchLinkList = this.getFetchLinkList(linkList);
+    const fetchLinkList = getFetchLinkList(linkList, soldOutDict);
 
     const fetchPromises = fetchLinkList.map(link => this.singleLinkPromise(link));
 
@@ -104,8 +115,9 @@ class ScheduleList extends React.PureComponent {
     if ((Object.keys(schedules).length === 0 && Object.keys(nextSchedules).length !== 0)
       || sport !== nextSport
     ) {
+      const { soldOutDict } = this.state;
       const linkList = nextSchedules[nextSport].map(ele => ele.link);
-      const fetchLinkList = this.getFetchLinkList(linkList);
+      const fetchLinkList = getFetchLinkList(linkList, soldOutDict);
 
       const fetchPromises = fetchLinkList.map(link => this.singleLinkPromise(link));
 
@@ -113,39 +125,25 @@ class ScheduleList extends React.PureComponent {
     }
   }
 
-  getFetchLinkList(newLinkList) {
-    const { soldOutDict } = this.state;
-
-    const previousLinkList = Object.keys(soldOutDict);
-    const linkList = newLinkList.filter(
-      link => !previousLinkList.includes(link),
-    );
-
-    const set = new Set(linkList);
-    return Array.from(set);
-  }
-
   singleLinkPromise(link) {
     return ApiUtil.get(link)
       .then(response => response.text())
       .then((text) => {
-        if (text.startsWith('<script')) {
-          this.setState(state => (
-            Object.assign(
-              {},
-              state,
-              {
-                soldOutDict: Object.assign(
-                  {},
-                  state.soldOutDict,
-                  {
-                    [link]: true,
-                  },
-                ),
-              },
-            )),
-          );
-        }
+        this.setState(state => (
+          Object.assign(
+            {},
+            state,
+            {
+              soldOutDict: Object.assign(
+                {},
+                state.soldOutDict,
+                {
+                  [link]: text.startsWith('<script'),
+                },
+              ),
+            },
+          )),
+        );
       });
   }
 
