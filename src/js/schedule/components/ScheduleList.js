@@ -12,6 +12,8 @@ import {
   TableRowColumn,
 } from 'material-ui';
 
+import TicketLink from './TicketLink';
+
 const propTypes = {
   schedules: PropTypes.object,
   sport: PropTypes.string,
@@ -68,18 +70,7 @@ class ScheduleList extends React.PureComponent {
                 <TableRowColumn>{schedules[sport][element].gender}</TableRowColumn>
                 <TableRowColumn>{schedules[sport][element].place}</TableRowColumn>
                 <TableRowColumn>
-                  {schedules[sport][element].link
-                    ? (
-                      <a
-                        href={schedules[sport][element].link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        購票
-                      </a>
-                    )
-                    : null
-                  }
+                  <TicketLink link={schedules[sport][element].link} />
                 </TableRowColumn>
               </TableRow>
             ))}
