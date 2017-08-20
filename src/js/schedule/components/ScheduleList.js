@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { createHashHistory as createHistory } from 'history';
 
 import {
   MenuItem,
@@ -12,10 +13,12 @@ import {
   TableRowColumn,
 } from 'material-ui';
 
+
 const propTypes = {
   schedules: PropTypes.object,
   sport: PropTypes.string,
   match: PropTypes.shape({
+    path: PropTypes.string.isRequired,
     params: PropTypes.shape({
       sport: PropTypes.string,
     }),
@@ -31,6 +34,8 @@ const defaultProps = {
   },
 };
 
+const history = createHistory();
+
 const generateId = ele =>
   `${ele.date}-${ele.event}-${ele.place}-${ele.time}`;
 
@@ -45,9 +50,10 @@ class ScheduleList extends React.PureComponent {
   }
 
   handleSportChange(event, key, value) {
-    this.setState({
-      sport: value,
-    });
+    const { path } = this.props.match;
+
+    const pushLocation = path.replace(':sport', value);
+    history.push(pushLocation);
   }
 
   render() {
