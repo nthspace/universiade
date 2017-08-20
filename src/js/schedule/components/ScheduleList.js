@@ -89,6 +89,14 @@ class ScheduleList extends React.PureComponent {
 
     const { sport: nextSport } = nextProps.match.params;
 
+    if (sport !== nextSport) {
+      this.setState({
+        date: null,
+        event: '',
+        place: null,
+      });
+    }
+
     if ((Object.keys(schedules).length === 0 && Object.keys(nextSchedules).length !== 0)
       || sport !== nextSport
     ) {
