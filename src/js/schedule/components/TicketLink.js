@@ -20,9 +20,9 @@ class TicketLink extends PureComponent {
 
     if (link) {
       ApiUtil.get(link)
-        .then(response => response.blob())
-        .then((blob) => {
-          if (blob.type && blob.type.toLowerCase().includes('script')) {
+        .then(response => response.text())
+        .then((text) => {
+          if (text.startsWith('<script')) {
             this.setState({
               soldOut: true,
             });
