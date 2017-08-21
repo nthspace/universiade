@@ -3,6 +3,8 @@ import React from 'react';
 
 import { AppBar, Drawer, MenuItem, SelectField } from 'material-ui';
 
+import ScheduleCard from './ScheduleCard';
+
 const propTypes = {
   sports: PropTypes.array,
   sport: PropTypes.string,
@@ -112,6 +114,12 @@ class MobileRoot extends React.PureComponent {
             : null
           }
         </Drawer>
+        {schedules.map(element => (
+          <ScheduleCard
+            key={`${element.date}|${element.time}|${element.place}`}
+            schedule={element}
+          />
+        ))}
       </div>
     );
   }
