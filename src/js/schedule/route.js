@@ -3,7 +3,8 @@ import React from 'react';
 
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import Root from './containers/ScheduleListContainer';
+import Root from './containers/RootContainer';
+
 
 const propTypes = {
   match: PropTypes.object.isRequired,
