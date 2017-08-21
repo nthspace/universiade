@@ -63,7 +63,7 @@ const getFetchLinkList = (newLinkList, soldOutDict) => {
   return Array.from(set);
 };
 
-const isExpired = (ele) => {
+const isNotExpired = (ele) => {
   const { date } = ele;
 
   const now = new Date();
@@ -80,7 +80,7 @@ const isExpired = (ele) => {
 
   const diffHours = (gameDate - deadline) / 36e5;
 
-  return diffHours < 36;
+  return diffHours > 35;
 };
 
 class ScheduleList extends React.PureComponent {
@@ -110,7 +110,7 @@ class ScheduleList extends React.PureComponent {
     const { soldOutDict } = this.state;
 
     const linkList = schedules[sport]
-      .filter(isExpired)
+      .filter(isNotExpired)
       .map(ele => ele.link);
     const fetchLinkList = getFetchLinkList(linkList, soldOutDict);
 
@@ -138,7 +138,7 @@ class ScheduleList extends React.PureComponent {
       || sport !== nextSport
     ) {
       const { soldOutDict } = this.state;
-      const linkList = nextSchedules[nextSport].filter(isExpired).map(ele => ele.link);
+      const linkList = nextSchedules[nextSport].filter(isNotExpired).map(ele => ele.link);
       const fetchLinkList = getFetchLinkList(linkList, soldOutDict);
 
       const fetchPromises = fetchLinkList.map(link => this.singleLinkPromise(link));
@@ -312,9 +312,9 @@ class ScheduleList extends React.PureComponent {
                           ? false : soldOutDict[schedules[sport][element].link]
                       }
                       link={
-                        isExpired(schedules[sport][element]) ?
-                          null :
-                        schedules[sport][element].link
+                        isNotExpired(schedules[sport][element]) ?
+                          schedules[sport][element].link:
+                          null
                       }
                     />
                   </TableRowColumn>
