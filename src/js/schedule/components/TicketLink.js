@@ -30,7 +30,7 @@ class TicketLink extends PureComponent {
 }
 
 TicketLink.propTypes = {
-  link: PropTypes.string.isRequired,
+  link: PropTypes.string,
   soldOut: PropTypes.bool.isRequired,
 };
 

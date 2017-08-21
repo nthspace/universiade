@@ -63,6 +63,26 @@ const getFetchLinkList = (newLinkList, soldOutDict) => {
   return Array.from(set);
 };
 
+const isExpired = (ele) => {
+  const { date } = ele;
+
+  const now = new Date();
+  const deadline = new Date();
+
+  if (now.getHours() > 11) {
+    deadline.setHours(12, 0, 0, 0);
+  } else {
+    deadline.setHours(0, 0, 0, 0);
+    deadline.setHours(-12);
+  }
+
+  const gameDate = new Date(date);
+
+  const diffHours = (gameDate - deadline) / 36e5;
+
+  return diffHours < 36;
+};
+
 class ScheduleList extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -89,7 +109,9 @@ class ScheduleList extends React.PureComponent {
 
     const { soldOutDict } = this.state;
 
-    const linkList = schedules[sport].map(ele => ele.link);
+    const linkList = schedules[sport]
+      .filter(isExpired)
+      .map(ele => ele.link);
     const fetchLinkList = getFetchLinkList(linkList, soldOutDict);
 
     const fetchPromises = fetchLinkList.map(link => this.singleLinkPromise(link));
@@ -116,7 +138,7 @@ class ScheduleList extends React.PureComponent {
       || sport !== nextSport
     ) {
       const { soldOutDict } = this.state;
-      const linkList = nextSchedules[nextSport].map(ele => ele.link);
+      const linkList = nextSchedules[nextSport].filter(isExpired).map(ele => ele.link);
       const fetchLinkList = getFetchLinkList(linkList, soldOutDict);
 
       const fetchPromises = fetchLinkList.map(link => this.singleLinkPromise(link));
@@ -289,7 +311,11 @@ class ScheduleList extends React.PureComponent {
                         soldOutDict[schedules[sport][element].link] === undefined
                           ? false : soldOutDict[schedules[sport][element].link]
                       }
-                      link={schedules[sport][element].link}
+                      link={
+                        isExpired(schedules[sport][element]) ?
+                          null :
+                        schedules[sport][element].link
+                      }
                     />
                   </TableRowColumn>
                 </TableRow>
