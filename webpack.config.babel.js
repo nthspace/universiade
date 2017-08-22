@@ -13,6 +13,7 @@ const plugins = [
     logo: './src/img/logo.png',
   }),
   new HtmlWebpackPlugin({
+    template: './src/ejs/index.ejs',
     title: '2017 世大運賽程資訊',
   }),
 ];

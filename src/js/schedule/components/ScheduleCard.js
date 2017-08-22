@@ -23,57 +23,31 @@ const propTypes = {
 const defaultProps = {};
 
 const styles = {
-  img: {
-    width: '4em',
-    height: '4em',
-    marginRight: '1em',
-  },
   card: {
-    padding: '1em',
-    margin: '1em',
-  },
-  cardHeaderTitle: {
-    fontSize: '3em',
-  },
-  cardTitle: {
-    fontSize: '2em',
-  },
-  cardSubtitle: {
-    fontSize: '1.5em',
+    padding: '0.5em',
+    margin: '0.5em',
   },
   cardActions: {
     textAlign: 'right',
   },
-  button: {
-    width: '100%',
-    height: '5em',
-    maxWidth: '15em',
-    lineHeight: '5em',
-  },
-  buttonLabel: {
-    fontSize: '3em',
-  },
 };
 
-const Avatar = ({ gender }) => {
+const toIcon = (gender) => {
   if (gender === '女') {
-    return <img style={styles.img} alt="female" src={FemaleIcon} />;
+    return FemaleIcon;
   } else if (gender === '男') {
-    return <img style={styles.img} alt="male" src={MaleIcon} />;
+    return MaleIcon;
   }
-  return <img style={styles.img} alt="mixed" src={MixedIcon} />
+  return MixedIcon;
 };
 
 const ScheduleCard = ({ schedule, available }) => (
   <Card style={styles.card}>
     <CardHeader
-      titleStyle={styles.cardHeaderTitle}
       title={`${withDay(schedule.date)}${schedule.time}`}
-      avatar={<Avatar gender={schedule.gender} />}
+      avatar={toIcon(schedule.gender)}
     />
     <CardTitle
-      titleStyle={styles.cardTitle}
-      subtitleStyle={styles.cardSubtitle}
       title={schedule.event}
       subtitle={schedule.place}
     />
@@ -81,8 +55,6 @@ const ScheduleCard = ({ schedule, available }) => (
       ? (
         <CardActions style={styles.cardActions}>
           <RaisedButton
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
             primary
             disabled={!available}
             label={available ? '購票' : '已售罄'}
