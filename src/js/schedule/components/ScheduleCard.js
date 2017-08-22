@@ -4,6 +4,7 @@ import React from 'react';
 import { Card, CardActions, CardHeader, CardTitle } from 'material-ui';
 
 import TicketLink from './TicketLink';
+import { isScheduleActive } from '../utils';
 
 import LogoIcon from '../../../img/logo.png';
 
@@ -16,12 +17,11 @@ const propTypes = {
     place: PropTypes.string.isRequired,
     link: PropTypes.string,
   }).isRequired,
-  active: PropTypes.bool.isRequired,
   available: PropTypes.bool.isRequired,
 };
 const defaultProps = {};
 
-const ScheduleCard = ({ schedule, active, available }) => (
+const ScheduleCard = ({ schedule, available }) => (
   <Card style={{ margin: '8px' }}>
     <CardHeader
       title={schedule.date}
@@ -32,7 +32,7 @@ const ScheduleCard = ({ schedule, active, available }) => (
       title={schedule.event}
       subtitle={schedule.place}
     />
-    {active && schedule.link
+    {isScheduleActive(schedule) && schedule.link
       ? (
         <CardActions>
           <TicketLink link={schedule.link} soldOut={!available} />
