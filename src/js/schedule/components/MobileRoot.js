@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { AppBar, Drawer, MenuItem, SelectField } from 'material-ui';
 
@@ -77,17 +78,17 @@ class MobileRoot extends React.PureComponent {
 
   handleSportChange(event, key, value) {
     this.props.onSportChange(value);
-    scrollNodeIntoView(this.scrollAnchor);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
   handleDateChange(event, key, value) {
     this.props.onDateChange(value);
-    scrollNodeIntoView(this.scrollAnchor);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
   handlePlaceChange(event, key, value) {
     this.props.onPlaceChange(value);
-    scrollNodeIntoView(this.scrollAnchor);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
   render() {
@@ -155,16 +156,16 @@ class MobileRoot extends React.PureComponent {
               : null
             }
           </Drawer>
-          <div
-            ref={(node) => {
-              this.scrollAnchor = node;
-            }}
-          />
-          {sortedSchedules.map(element => (
+          {sortedSchedules.map((element, index) => (
             <ScheduleCard
               key={`${element.date}|${element.time}|${element.place}`}
               schedule={element}
               available={!(element.link in availabilities) || availabilities[element.link]}
+              ref={(node) => {
+                if (index === 0) {
+                  this.scrollAnchor = node;
+                }
+              }}
             />
           ))}
         </div>
