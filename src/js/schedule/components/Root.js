@@ -152,7 +152,7 @@ class Root extends React.PureComponent {
         .filter(element => !event || element.event.includes(event))
       : [];
     return (
-      <Media query={{ maxWidth: 768 }}>
+      <Media query={{ maxDeviceWidth: 768 }}>
         {matches => (matches
           ? (
             <MobileRoot
