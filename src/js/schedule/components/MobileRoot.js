@@ -30,6 +30,15 @@ const defaultProps = {
   onPlaceChange: () => {},
 };
 
+const styles = {
+  drawerContainer: {
+    padding: '8px 16px',
+  },
+  drawerChildren: {
+    width: '100%',
+  },
+};
+
 class MobileRoot extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -82,18 +91,19 @@ class MobileRoot extends React.PureComponent {
       <div>
         <AppBar onLeftIconButtonTouchTap={handleDrawerIconButtonTouchTap} />
         <Drawer
+          containerStyle={styles.drawerContainer}
           docked={false}
           open={drawerOpen}
           onRequestChange={handleDrawerChange}
         >
-          <SelectField value={sport} onChange={handleSportChange}>
+          <SelectField style={styles.drawerChildren} value={sport} onChange={handleSportChange}>
             {sports.map(element => (
               <MenuItem key={element} value={element} primaryText={element} />
             ))}
           </SelectField>
           {sport
             ? (
-              <SelectField value={date} onChange={handleDateChange}>
+              <SelectField style={styles.drawerChildren} value={date} onChange={handleDateChange}>
                 <MenuItem />
                 {dates.map(element => (
                   <MenuItem key={element} value={element} primaryText={element} />
@@ -104,7 +114,7 @@ class MobileRoot extends React.PureComponent {
           }
           {sport
             ? (
-              <SelectField value={place} onChange={handlePlaceChange}>
+              <SelectField style={styles.drawerChildren} value={place} onChange={handlePlaceChange}>
                 <MenuItem />
                 {places.map(element => (
                   <MenuItem key={element} value={element} primaryText={element} />
