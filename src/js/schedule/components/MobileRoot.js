@@ -13,6 +13,7 @@ const propTypes = {
   places: PropTypes.array,
   place: PropTypes.string,
   schedules: PropTypes.array,
+  availabilities: PropTypes.object,
   onSportChange: PropTypes.func,
   onDateChange: PropTypes.func,
   onPlaceChange: PropTypes.func,
@@ -25,6 +26,7 @@ const defaultProps = {
   places: [],
   place: null,
   schedules: [],
+  availabilities: {},
   onSportChange: () => {},
   onDateChange: () => {},
   onPlaceChange: () => {},
@@ -85,7 +87,7 @@ class MobileRoot extends React.PureComponent {
       handleDateChange,
       handlePlaceChange,
     } = this;
-    const { sports, sport, dates, date, places, place, schedules } = this.props;
+    const { sports, sport, dates, date, places, place, schedules, availabilities } = this.props;
     const { drawerOpen } = this.state;
     return (
       <div>
@@ -128,6 +130,7 @@ class MobileRoot extends React.PureComponent {
           <ScheduleCard
             key={`${element.date}|${element.time}|${element.place}`}
             schedule={element}
+            available={!(element.link in availabilities) || availabilities[element.link]}
           />
         ))}
       </div>

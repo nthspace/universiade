@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import MobileRoot from './MobileRoot';
+import { get } from '../../ApiUtil';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
@@ -24,15 +25,35 @@ class Root extends React.PureComponent {
     this.state = {
       date: null,
       place: null,
+      availabilities: {},
     };
+    this.checkLinkAvailability = this.checkLinkAvailability.bind(this);
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
+    const { schedules } = this.props;
     const { sport } = this.props.match.params;
-    const { nextSport } = nextProps.match.params;
+    const links = schedules[sport]
+      ? schedules[sport].reduce((accumulator, value) => {
+        if (value.link && !accumulator.includes(value.link)) {
+          accumulator.push(value.link);
+        }
+        return accumulator;
+      }, [])
+      : [];
+    links.forEach((value) => {
+      this.checkLinkAvailability(value);
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { schedules } = this.props;
+    const { schedules: nextSchedules } = nextProps;
+    const { sport } = this.props.match.params;
+    const { sport: nextSport } = nextProps.match.params;
 
     if (sport !== nextSport) {
       this.setState({
@@ -40,6 +61,35 @@ class Root extends React.PureComponent {
         place: null,
       });
     }
+
+    if (Object.keys(schedules).length !== Object.keys(nextSchedules).length
+      || sport !== nextSport) {
+      const { availabilities } = this.state;
+      const links = nextSchedules[nextSport]
+        ? nextSchedules[nextSport].reduce((accumulator, value) => {
+          if (value.link && !(value.link in availabilities) && !accumulator.includes(value.link)) {
+            accumulator.push(value.link);
+          }
+          return accumulator;
+        }, [])
+        : [];
+      links.forEach((value) => {
+        this.checkLinkAvailability(value);
+      });
+    }
+  }
+
+  checkLinkAvailability(link) {
+    return get(link)
+      .then(response => response.text())
+      .then((response) => {
+        const availabilities = Object.assign({}, this.state.availabilities, {
+          [link]: !response.startsWith('<script'),
+        });
+        this.setState({
+          availabilities,
+        });
+      });
   }
 
   handleSportChange(value) {
@@ -63,7 +113,7 @@ class Root extends React.PureComponent {
   render() {
     const { handleSportChange, handleDateChange, handlePlaceChange } = this;
     const { sport } = this.props.match.params;
-    const { date, place } = this.state;
+    const { date, place, availabilities } = this.state;
     const sports = Object.keys(this.props.schedules);
     const dates = this.props.schedules[sport]
       ? this.props.schedules[sport]
@@ -97,6 +147,7 @@ class Root extends React.PureComponent {
         places={places}
         place={place}
         schedules={schedules}
+        availabilities={availabilities}
         onSportChange={handleSportChange}
         onDateChange={handleDateChange}
         onPlaceChange={handlePlaceChange}
