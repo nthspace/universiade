@@ -4,7 +4,11 @@ import React from 'react';
 import { AppBar, Drawer, MenuItem, SelectField } from 'material-ui';
 
 import ScheduleCard from './ScheduleCard';
-import { withDay } from '../utils';
+import {
+  withDay,
+  todayInitDate,
+  sortSchedules,
+} from '../utils';
 
 const propTypes = {
   sports: PropTypes.array,
@@ -45,6 +49,8 @@ const styles = {
 class MobileRoot extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.sortSchedules = sortSchedules(todayInitDate());
 
     this.state = {
       drawerOpen: false,
@@ -90,6 +96,9 @@ class MobileRoot extends React.PureComponent {
     } = this;
     const { sports, sport, dates, date, places, place, schedules, availabilities } = this.props;
     const { drawerOpen } = this.state;
+
+    const sortedSchedules = this.sortSchedules(schedules);
+
     return (
       <div>
         <AppBar onLeftIconButtonTouchTap={handleDrawerIconButtonTouchTap} />
@@ -127,7 +136,7 @@ class MobileRoot extends React.PureComponent {
             : null
           }
         </Drawer>
-        {schedules.map(element => (
+        {sortedSchedules.map(element => (
           <ScheduleCard
             key={`${element.date}|${element.time}|${element.place}`}
             schedule={element}

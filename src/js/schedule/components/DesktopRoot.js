@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 import {
   MenuItem,
   SelectField,
@@ -16,7 +17,12 @@ import {
 } from 'material-ui';
 
 import TicketLink from './TicketLink';
-import { isScheduleActive, withDay } from '../utils';
+import {
+  isScheduleActive,
+  withDay,
+  todayInitDate,
+  sortSchedules,
+} from '../utils';
 
 const propTypes = {
   sports: PropTypes.array,
@@ -66,6 +72,8 @@ class DesktopRoot extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this.sortSchedules = sortSchedules(todayInitDate());
+
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
@@ -101,6 +109,8 @@ class DesktopRoot extends React.PureComponent {
       schedules,
       availabilities,
     } = this.props;
+
+    const sortedSchedules = this.sortSchedules(schedules);
     return (
       <div>
         <Toolbar style={styles.toolbar}>
@@ -178,7 +188,7 @@ class DesktopRoot extends React.PureComponent {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false} showRowHover>
-            {schedules.map(element => (
+            {sortedSchedules.map(element => (
               <TableRow key={`${element.date}|${element.time}|${element.place}`}>
                 <TableRowColumn>{withDay(element.date)}</TableRowColumn>
                 <TableRowColumn>{element.time}</TableRowColumn>

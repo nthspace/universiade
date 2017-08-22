@@ -20,3 +20,27 @@ export const isScheduleActive = (schedule) => {
 };
 
 export const withDay = date => `${date}（${dayMapping[new Date(date).getDay()]}）`;
+
+export const todayInitDate = () => {
+  const current = new Date();
+
+  const currentDate = current.getDate();
+  const currentMonth = current.getMonth();
+  const currentYear = current.getFullYear();
+
+  return new Date(currentYear, currentMonth, currentDate);
+};
+
+const normalizeDate = (date) => {
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+
+  return date;
+};
+
+export const sortSchedules = today => schedules =>
+  [
+    ...schedules.filter(s => !(today > normalizeDate(new Date(s.date)))),
+    ...schedules.filter(s => (today > normalizeDate(new Date(s.date)))),
+  ];
