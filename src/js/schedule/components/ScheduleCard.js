@@ -27,6 +27,17 @@ const styles = {
     padding: '0.5em',
     margin: '0.5em',
   },
+  cardHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cardHeaderTitle: {
+    fontSize: '18px',
+  },
+  cardSubtitle: {
+    fontSize: '16px',
+  },
   cardActions: {
     textAlign: 'right',
   },
@@ -44,10 +55,13 @@ const toIcon = (gender) => {
 const ScheduleCard = ({ schedule, available }) => (
   <Card style={styles.card}>
     <CardHeader
+      style={styles.cardHeader}
+      titleStyle={styles.cardHeaderTitle}
       title={`${withDay(schedule.date)}${schedule.time}`}
       avatar={toIcon(schedule.gender)}
     />
     <CardTitle
+      subtitleStyle={styles.cardSubtitle}
       title={schedule.event}
       subtitle={schedule.place}
     />
