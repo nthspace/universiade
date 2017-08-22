@@ -21,6 +21,12 @@ export const isScheduleActive = (schedule) => {
 
 export const withDay = date => `${date}（${dayMapping[new Date(date).getDay()]}）`;
 
+export const scrollNodeIntoView = (node, behavior = 'smooth') => {
+  if (node) {
+    node.scrollIntoView({ behavior });
+  }
+};
+
 export const todayInitDate = () => {
   const current = new Date();
 

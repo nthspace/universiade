@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Card, CardActions, CardHeader, CardTitle } from 'material-ui';
+import { Card, CardActions, CardHeader, CardTitle, RaisedButton } from 'material-ui';
 
-import TicketLink from './TicketLink';
 import { isScheduleActive, withDay } from '../utils';
 
-import LogoIcon from '../../../img/logo.png';
+import FemaleIcon from '../../../img/female.png';
+import MaleIcon from '../../../img/male.png';
+import MixedIcon from '../../../img/mixed.png';
 
 const propTypes = {
   schedule: PropTypes.shape({
@@ -21,21 +22,58 @@ const propTypes = {
 };
 const defaultProps = {};
 
+const styles = {
+  card: {
+    padding: '0.5em',
+    margin: '0.5em',
+  },
+  cardHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cardHeaderTitle: {
+    fontSize: '18px',
+  },
+  cardSubtitle: {
+    fontSize: '16px',
+  },
+  cardActions: {
+    textAlign: 'right',
+  },
+};
+
+const toIcon = (gender) => {
+  if (gender === '女') {
+    return FemaleIcon;
+  } else if (gender === '男') {
+    return MaleIcon;
+  }
+  return MixedIcon;
+};
+
 const ScheduleCard = ({ schedule, available }) => (
-  <Card style={{ margin: '8px' }}>
+  <Card style={styles.card}>
     <CardHeader
-      title={withDay(schedule.date)}
-      subtitle={schedule.time}
-      avatar={LogoIcon}
+      style={styles.cardHeader}
+      titleStyle={styles.cardHeaderTitle}
+      title={`${withDay(schedule.date)}${schedule.time}`}
+      avatar={toIcon(schedule.gender)}
     />
     <CardTitle
+      subtitleStyle={styles.cardSubtitle}
       title={schedule.event}
       subtitle={schedule.place}
     />
     {isScheduleActive(schedule) && schedule.link
       ? (
-        <CardActions>
-          <TicketLink link={schedule.link} soldOut={!available} />
+        <CardActions style={styles.cardActions}>
+          <RaisedButton
+            primary
+            disabled={!available}
+            label={available ? '購票' : '已售罄'}
+            href={schedule.link}
+          />
         </CardActions>
       )
       : null

@@ -6,6 +6,7 @@ import { AppBar, Drawer, MenuItem, SelectField } from 'material-ui';
 import ScheduleCard from './ScheduleCard';
 import {
   withDay,
+  scrollNodeIntoView,
   todayInitDate,
   sortSchedules,
 } from '../utils';
@@ -76,14 +77,17 @@ class MobileRoot extends React.PureComponent {
 
   handleSportChange(event, key, value) {
     this.props.onSportChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   handleDateChange(event, key, value) {
     this.props.onDateChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   handlePlaceChange(event, key, value) {
     this.props.onPlaceChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   render() {
@@ -136,6 +140,11 @@ class MobileRoot extends React.PureComponent {
             : null
           }
         </Drawer>
+        <div
+          ref={(node) => {
+            this.scrollAnchor = node;
+          }}
+        />
         {sortedSchedules.map(element => (
           <ScheduleCard
             key={`${element.date}|${element.time}|${element.place}`}

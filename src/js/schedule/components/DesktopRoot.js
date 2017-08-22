@@ -20,6 +20,7 @@ import TicketLink from './TicketLink';
 import {
   isScheduleActive,
   withDay,
+  scrollNodeIntoView,
   todayInitDate,
   sortSchedules,
 } from '../utils';
@@ -82,18 +83,22 @@ class DesktopRoot extends React.PureComponent {
 
   handleSportChange(event, key, value) {
     this.props.onSportChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   handleDateChange(event, key, value) {
     this.props.onDateChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   handlePlaceChange(event, key, value) {
     this.props.onPlaceChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   handleEventChange(event, value) {
     this.props.onEventChange(value);
+    scrollNodeIntoView(this.scrollAnchor);
   }
 
   render() {
@@ -176,6 +181,11 @@ class DesktopRoot extends React.PureComponent {
             : null
           }
         </Toolbar>
+        <div
+          ref={(node) => {
+            this.scrollAnchor = node;
+          }}
+        />
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
