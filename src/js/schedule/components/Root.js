@@ -7,6 +7,12 @@ import DesktopRoot from './DesktopRoot';
 import MobileRoot from './MobileRoot';
 import { get } from '../../ApiUtil';
 
+import Tracker from '../../Tracker';
+import {
+  GA_EVENT_CATEGORY,
+  GA_FILTER_ACTION,
+} from '../../core/constants';
+
 const propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.shape({
@@ -52,6 +58,7 @@ class Root extends React.PureComponent {
     links.forEach((value) => {
       this.checkLinkAvailability(value);
     });
+    Tracker.logPageView();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -101,16 +108,19 @@ class Root extends React.PureComponent {
   handleSportChange(value) {
     const { history } = this.props;
     const { path } = this.props.match;
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.sport, value);
     history.push(path.replace(':sport', value));
   }
 
   handleDateChange(value) {
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.date, value);
     this.setState({
       date: value,
     });
   }
 
   handlePlaceChange(value) {
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.arena, value);
     this.setState({
       place: value,
     });
