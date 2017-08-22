@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Media from 'react-media';
+
 import DesktopRoot from './DesktopRoot';
 import MobileRoot from './MobileRoot';
 import { get } from '../../ApiUtil';
@@ -150,21 +152,42 @@ class Root extends React.PureComponent {
         .filter(element => !event || element.event.includes(event))
       : [];
     return (
-      <DesktopRoot
-        sports={sports}
-        sport={sport}
-        dates={dates}
-        date={date}
-        places={places}
-        place={place}
-        event={event}
-        schedules={schedules}
-        availabilities={availabilities}
-        onSportChange={handleSportChange}
-        onDateChange={handleDateChange}
-        onPlaceChange={handlePlaceChange}
-        onEventChange={handleEventChange}
-      />
+      <Media query={{ maxWidth: 768 }}>
+        {matches => (matches
+          ? (
+            <MobileRoot
+              sports={sports}
+              sport={sport}
+              dates={dates}
+              date={date}
+              places={places}
+              place={place}
+              schedules={schedules}
+              availabilities={availabilities}
+              onSportChange={handleSportChange}
+              onDateChange={handleDateChange}
+              onPlaceChange={handlePlaceChange}
+            />
+          )
+          : (
+            <DesktopRoot
+              sports={sports}
+              sport={sport}
+              dates={dates}
+              date={date}
+              places={places}
+              place={place}
+              event={event}
+              schedules={schedules}
+              availabilities={availabilities}
+              onSportChange={handleSportChange}
+              onDateChange={handleDateChange}
+              onPlaceChange={handlePlaceChange}
+              onEventChange={handleEventChange}
+            />
+          )
+        )}
+      </Media>
     );
   }
 }
