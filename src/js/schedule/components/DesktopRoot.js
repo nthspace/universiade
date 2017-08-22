@@ -16,7 +16,7 @@ import {
 } from 'material-ui';
 
 import TicketLink from './TicketLink';
-import { isScheduleActive } from '../utils';
+import { isScheduleActive, withDay } from '../utils';
 
 const propTypes = {
   sports: PropTypes.array,
@@ -127,7 +127,7 @@ class DesktopRoot extends React.PureComponent {
                 >
                   <MenuItem value={null} />
                   {dates.map(element => (
-                    <MenuItem key={element} value={element} primaryText={element} />
+                    <MenuItem key={element} value={element} primaryText={withDay(element)} />
                   ))}
                 </SelectField>
               </ToolbarGroup>
@@ -180,7 +180,7 @@ class DesktopRoot extends React.PureComponent {
           <TableBody displayRowCheckbox={false} showRowHover>
             {schedules.map(element => (
               <TableRow key={`${element.date}|${element.time}|${element.place}`}>
-                <TableRowColumn>{element.date}</TableRowColumn>
+                <TableRowColumn>{withDay(element.date)}</TableRowColumn>
                 <TableRowColumn>{element.time}</TableRowColumn>
                 <TableRowColumn>{element.event}</TableRowColumn>
                 <TableRowColumn>{element.gender}</TableRowColumn>

@@ -4,7 +4,7 @@ import React from 'react';
 import { Card, CardActions, CardHeader, CardTitle } from 'material-ui';
 
 import TicketLink from './TicketLink';
-import { isScheduleActive } from '../utils';
+import { isScheduleActive, withDay } from '../utils';
 
 import LogoIcon from '../../../img/logo.png';
 
@@ -24,7 +24,7 @@ const defaultProps = {};
 const ScheduleCard = ({ schedule, available }) => (
   <Card style={{ margin: '8px' }}>
     <CardHeader
-      title={schedule.date}
+      title={withDay(schedule.date)}
       subtitle={schedule.time}
       avatar={LogoIcon}
     />

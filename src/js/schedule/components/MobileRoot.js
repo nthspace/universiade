@@ -4,6 +4,7 @@ import React from 'react';
 import { AppBar, Drawer, MenuItem, SelectField } from 'material-ui';
 
 import ScheduleCard from './ScheduleCard';
+import { withDay } from '../utils';
 
 const propTypes = {
   sports: PropTypes.array,
@@ -108,7 +109,7 @@ class MobileRoot extends React.PureComponent {
               <SelectField style={styles.drawerChildren} value={date} onChange={handleDateChange}>
                 <MenuItem />
                 {dates.map(element => (
-                  <MenuItem key={element} value={element} primaryText={element} />
+                  <MenuItem key={element} value={element} primaryText={withDay(element)} />
                 ))}
               </SelectField>
             )
