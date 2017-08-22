@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import DesktopRoot from './DesktopRoot';
 import MobileRoot from './MobileRoot';
 import { get } from '../../ApiUtil';
 
@@ -25,12 +26,14 @@ class Root extends React.PureComponent {
     this.state = {
       date: null,
       place: null,
+      event: '',
       availabilities: {},
     };
     this.checkLinkAvailability = this.checkLinkAvailability.bind(this);
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
+    this.handleEventChange = this.handleEventChange.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +62,7 @@ class Root extends React.PureComponent {
       this.setState({
         date: null,
         place: null,
+        event: '',
       });
     }
 
@@ -110,10 +114,16 @@ class Root extends React.PureComponent {
     });
   }
 
+  handleEventChange(value) {
+    this.setState({
+      event: value,
+    });
+  }
+
   render() {
-    const { handleSportChange, handleDateChange, handlePlaceChange } = this;
+    const { handleSportChange, handleDateChange, handlePlaceChange, handleEventChange } = this;
     const { sport } = this.props.match.params;
-    const { date, place, availabilities } = this.state;
+    const { date, place, event, availabilities } = this.state;
     const sports = Object.keys(this.props.schedules);
     const dates = this.props.schedules[sport]
       ? this.props.schedules[sport]
@@ -137,20 +147,23 @@ class Root extends React.PureComponent {
       ? this.props.schedules[sport]
         .filter(element => !date || element.date === date)
         .filter(element => !place || element.place === place)
+        .filter(element => !event || element.event.includes(event))
       : [];
     return (
-      <MobileRoot
+      <DesktopRoot
         sports={sports}
         sport={sport}
         dates={dates}
         date={date}
         places={places}
         place={place}
+        event={event}
         schedules={schedules}
         availabilities={availabilities}
         onSportChange={handleSportChange}
         onDateChange={handleDateChange}
         onPlaceChange={handlePlaceChange}
+        onEventChange={handleEventChange}
       />
     );
   }
