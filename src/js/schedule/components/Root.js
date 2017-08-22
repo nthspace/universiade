@@ -30,6 +30,18 @@ class Root extends React.PureComponent {
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { sport } = this.props.match.params;
+    const { nextSport } = nextProps.match.params;
+
+    if (sport !== nextSport) {
+      this.setState({
+        date: null,
+        place: null,
+      });
+    }
+  }
+
   handleSportChange(value) {
     const { history } = this.props;
     const { path } = this.props.match;
