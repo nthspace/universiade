@@ -105,53 +105,69 @@ class MobileRoot extends React.PureComponent {
 
     return (
       <div>
-        <AppBar onLeftIconButtonTouchTap={handleDrawerIconButtonTouchTap} />
-        <Drawer
-          containerStyle={styles.drawerContainer}
-          docked={false}
-          open={drawerOpen}
-          onRequestChange={handleDrawerChange}
-        >
-          <SelectField style={styles.drawerChildren} value={sport} onChange={handleSportChange}>
-            {sports.map(element => (
-              <MenuItem key={element} value={element} primaryText={element} />
-            ))}
-          </SelectField>
-          {sport
-            ? (
-              <SelectField style={styles.drawerChildren} value={date} onChange={handleDateChange}>
-                <MenuItem />
-                {dates.map(element => (
-                  <MenuItem key={element} value={element} primaryText={withDay(element)} />
-                ))}
-              </SelectField>
-            )
-            : null
-          }
-          {sport
-            ? (
-              <SelectField style={styles.drawerChildren} value={place} onChange={handlePlaceChange}>
-                <MenuItem />
-                {places.map(element => (
-                  <MenuItem key={element} value={element} primaryText={element} />
-                ))}
-              </SelectField>
-            )
-            : null
-          }
-        </Drawer>
-        <div
-          ref={(node) => {
-            this.scrollAnchor = node;
+        <AppBar
+          onLeftIconButtonTouchTap={handleDrawerIconButtonTouchTap}
+          style={{
+            position: 'fixed',
+            top: '0',
           }}
         />
-        {sortedSchedules.map(element => (
-          <ScheduleCard
-            key={`${element.date}|${element.time}|${element.place}`}
-            schedule={element}
-            available={!(element.link in availabilities) || availabilities[element.link]}
+        <div
+          style={{
+            marginTop: '70px',
+          }}
+        >
+          <Drawer
+            containerStyle={styles.drawerContainer}
+            docked={false}
+            open={drawerOpen}
+            onRequestChange={handleDrawerChange}
+          >
+            <SelectField style={styles.drawerChildren} value={sport} onChange={handleSportChange}>
+              {sports.map(element => (
+                <MenuItem key={element} value={element} primaryText={element} />
+              ))}
+            </SelectField>
+            {sport
+              ? (
+                <SelectField style={styles.drawerChildren} value={date} onChange={handleDateChange}>
+                  <MenuItem />
+                  {dates.map(element => (
+                    <MenuItem key={element} value={element} primaryText={withDay(element)} />
+                  ))}
+                </SelectField>
+              )
+              : null
+            }
+            {sport
+              ? (
+                <SelectField
+                  style={styles.drawerChildren}
+                  value={place}
+                  onChange={handlePlaceChange}
+                >
+                  <MenuItem />
+                  {places.map(element => (
+                    <MenuItem key={element} value={element} primaryText={element} />
+                  ))}
+                </SelectField>
+              )
+              : null
+            }
+          </Drawer>
+          <div
+            ref={(node) => {
+              this.scrollAnchor = node;
+            }}
           />
-        ))}
+          {sortedSchedules.map(element => (
+            <ScheduleCard
+              key={`${element.date}|${element.time}|${element.place}`}
+              schedule={element}
+              available={!(element.link in availabilities) || availabilities[element.link]}
+            />
+          ))}
+        </div>
       </div>
     );
   }

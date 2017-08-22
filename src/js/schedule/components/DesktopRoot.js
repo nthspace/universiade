@@ -186,7 +186,7 @@ class DesktopRoot extends React.PureComponent {
             this.scrollAnchor = node;
           }}
         />
-        <Table>
+        <Table height="calc(100vh - 145px)">
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn>日期</TableHeaderColumn>
