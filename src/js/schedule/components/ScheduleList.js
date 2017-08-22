@@ -20,6 +20,12 @@ import * as ApiUtil from '../../ApiUtil';
 
 import TicketLink from './TicketLink';
 
+import Tracker from '../../Tracker';
+import {
+  GA_EVENT_CATEGORY,
+  GA_FILTER_ACTION,
+} from '../../core/constants';
+
 const propTypes = {
   schedules: PropTypes.object,
   date: PropTypes.string,
@@ -117,6 +123,7 @@ class ScheduleList extends React.PureComponent {
     const fetchPromises = fetchLinkList.map(link => this.singleLinkPromise(link));
 
     Promise.all(fetchPromises);
+    Tracker.logPageView();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -173,10 +180,12 @@ class ScheduleList extends React.PureComponent {
     const { path } = this.props.match;
 
     const pushLocation = path.replace(':sport', value);
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.sport, value);
     history.push(pushLocation);
   }
 
   handleDateChange(event, key, value) {
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.date, value);
     this.setState({
       date: value,
     });
@@ -189,6 +198,7 @@ class ScheduleList extends React.PureComponent {
   }
 
   handlePlaceChange(event, key, value) {
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.arena, value);
     this.setState({
       place: value,
     });

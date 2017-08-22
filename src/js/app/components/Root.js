@@ -2,6 +2,7 @@ import React from 'react';
 import {
   RaisedButton,
 } from 'material-ui';
+import Tracker from '../../Tracker';
 
 const BANNER_URL = require('../../../img/banner.png');
 const MOTIVATION_URLS = [
@@ -42,40 +43,48 @@ const styles = {
   },
 };
 
-const Root = () => (
-  <div style={styles.root}>
-    <img
-      alt="banner"
-      src={BANNER_URL}
-      width="100%"
-    />
-    <div
-      style={styles.divider}
-    />
-    <div>
-      <RaisedButton
-        href="./#/schedule"
-        label={'找賽程買票去'}
-        primary
-        style={styles.button}
-        labelStyle={{
-          fontSize: '20px',
-        }}
-      />
-    </div>
-    <div
-      style={styles.contentContainer}
-    >
-      <h3>因為種種原因，我們希望這一切可以更好</h3>
-      <div
-        style={styles.content}
-      >
-        {MOTIVATION_URLS.map(url => (
-          <img alt="motivation" key={url} src={url} height="400px" />
-        ))}
+class Root extends React.PureComponent {
+  componentDidMount(){
+    Tracker.logPageView();
+  }
+
+  render(){
+    return (
+      <div style={styles.root}>
+        <img
+          alt="banner"
+          src={BANNER_URL}
+          width="100%"
+        />
+        <div
+          style={styles.divider}
+        />
+        <div>
+          <RaisedButton
+            href="./#/schedule"
+            label={'找賽程買票去'}
+            primary
+            style={styles.button}
+            labelStyle={{
+              fontSize: '20px',
+            }}
+          />
+        </div>
+        <div
+          style={styles.contentContainer}
+        >
+          <h3>因為種種原因，我們希望這一切可以更好</h3>
+          <div
+            style={styles.content}
+          >
+            {MOTIVATION_URLS.map(url => (
+              <img alt="motivation" key={url} src={url} height="400px" />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 export default Root;
