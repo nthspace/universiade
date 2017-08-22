@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 import {
@@ -88,17 +89,17 @@ class DesktopRoot extends React.PureComponent {
 
   handleDateChange(event, key, value) {
     this.props.onDateChange(value);
-    scrollNodeIntoView(this.scrollAnchor);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
   handlePlaceChange(event, key, value) {
     this.props.onPlaceChange(value);
-    scrollNodeIntoView(this.scrollAnchor);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
   handleEventChange(event, value) {
     this.props.onEventChange(value);
-    scrollNodeIntoView(this.scrollAnchor);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
   render() {
@@ -181,11 +182,6 @@ class DesktopRoot extends React.PureComponent {
             : null
           }
         </Toolbar>
-        <div
-          ref={(node) => {
-            this.scrollAnchor = node;
-          }}
-        />
         <Table height="calc(100vh - 145px)">
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
@@ -198,8 +194,15 @@ class DesktopRoot extends React.PureComponent {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false} showRowHover>
-            {sortedSchedules.map(element => (
-              <TableRow key={`${element.date}|${element.time}|${element.place}`}>
+            {sortedSchedules.map((element, index) => (
+              <TableRow
+                key={`${element.date}|${element.time}|${element.place}`}
+                ref={(node) => {
+                  if (index === 0) {
+                    this.scrollAnchor = node;
+                  }
+                }}
+              >
                 <TableRowColumn>{withDay(element.date)}</TableRowColumn>
                 <TableRowColumn>{element.time}</TableRowColumn>
                 <TableRowColumn>{element.event}</TableRowColumn>
