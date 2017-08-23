@@ -3,6 +3,10 @@ import {
   RaisedButton,
 } from 'material-ui';
 import Tracker from '../../Tracker';
+import PortraitCard from './PortraidCard';
+import PicWei from '../../../img/dreamcwli.png';
+import PicWen from '../../../img/wendell.jpg';
+import PicAm from '../../../img/amdis.jpg';
 
 const BANNER_URL = require('../../../img/banner.png');
 const MOTIVATION_URLS = [
@@ -88,6 +92,40 @@ class Root extends React.PureComponent {
               </div>
             ))}
           </div>
+        </div>
+        <div
+          style={styles.divider}
+        />
+        <h2>開發者</h2>
+        <div className="row">
+          <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <PortraitCard
+              src={PicAm}
+              name={'Amdis'}
+            />
+          </div>
+          <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <PortraitCard
+              src={PicWei}
+              name={'Wei'}
+            />
+          </div>
+          <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <PortraitCard
+              src={PicWen}
+              name={'Wendell'}
+            />
+          </div>
+        </div>
+        <div
+          style={styles.divider}
+        />
+        <h2>貢獻者</h2>
+        <div>
+          <h3>賽程小幫手 - 林明</h3>
+          <h3>賽程小幫手 - 王草莓</h3>
+          <h3>賽程小幫手 - 劉加加</h3>
+          <h3>製圖小幫手 - Wen</h3>
         </div>
       </div>
     );

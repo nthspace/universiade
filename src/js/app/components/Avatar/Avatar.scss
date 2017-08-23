@@ -1,0 +1,13 @@
+.frame{
+  > img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    border: 2px solid #E1E1E1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-border-radius: 225px; /* Saf3+, Chrome */
+    border-radius: 225px; /* Opera 10.5, IE 9 */
+    /*-moz-border-radius: 30px;  Disabled for FF1+ */
+  }
+}
