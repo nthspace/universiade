@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   RaisedButton,
+  IconButton,
 } from 'material-ui';
 import Tracker from '../../Tracker';
 import PortraitCard from './PortraidCard';
@@ -134,6 +135,19 @@ class Root extends React.PureComponent {
           <h3>賽程小幫手 - 劉加加</h3>
           <h3>製圖小幫手 - Wen</h3>
         </div>
+        <div
+          style={styles.divider}
+        />
+        <h3 style={{
+          textAlign: 'center',
+          wordBreak: 'keep-all',
+        }}>
+          如果你跟我們一樣，喜愛運動、熱愛台灣， <br />
+          <address>
+            <a href="mailto:webmaster@example.com">歡迎來信交流</a>
+          </address>
+          <IconButton iconClassName="muidocs-icon-custom-github" />
+        </h3>
       </div>
     );
   }
