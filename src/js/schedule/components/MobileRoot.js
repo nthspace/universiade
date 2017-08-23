@@ -40,6 +40,13 @@ const defaultProps = {
 };
 
 const styles = {
+  appBar: {
+    position: 'fixed',
+    top: '0',
+  },
+  cards: {
+    marginTop: '70px',
+  },
   drawerContainer: {
     padding: '8px 16px',
   },
@@ -107,31 +114,35 @@ class MobileRoot extends React.PureComponent {
     return (
       <div>
         <AppBar
+          style={styles.appBar}
+          title={sport}
           onLeftIconButtonTouchTap={handleDrawerIconButtonTouchTap}
-          style={{
-            position: 'fixed',
-            top: '0',
-          }}
         />
-        <div
-          style={{
-            marginTop: '70px',
-          }}
-        >
+        <div style={styles.cards}>
           <Drawer
             containerStyle={styles.drawerContainer}
             docked={false}
             open={drawerOpen}
             onRequestChange={handleDrawerChange}
           >
-            <SelectField style={styles.drawerChildren} value={sport} onChange={handleSportChange}>
+            <SelectField
+              style={styles.drawerChildren}
+              hintText="運動類型"
+              value={sport}
+              onChange={handleSportChange}
+            >
               {sports.map(element => (
                 <MenuItem key={element} value={element} primaryText={element} />
               ))}
             </SelectField>
             {sport
               ? (
-                <SelectField style={styles.drawerChildren} value={date} onChange={handleDateChange}>
+                <SelectField
+                  style={styles.drawerChildren}
+                  hintText="日期"
+                  value={date}
+                  onChange={handleDateChange}
+                >
                   <MenuItem />
                   {dates.map(element => (
                     <MenuItem key={element} value={element} primaryText={withDay(element)} />
@@ -144,6 +155,7 @@ class MobileRoot extends React.PureComponent {
               ? (
                 <SelectField
                   style={styles.drawerChildren}
+                  hintText="地點"
                   value={place}
                   onChange={handlePlaceChange}
                 >
