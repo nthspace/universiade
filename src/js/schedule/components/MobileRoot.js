@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { AppBar, Drawer, MenuItem, SelectField } from 'material-ui';
+import { AppBar, Drawer, IconButton, MenuItem, SelectField, TextField } from 'material-ui';
+import SearchIcon from 'material-ui/svg-icons/action/search';
 
 import ScheduleCard from './ScheduleCard';
 import {
@@ -19,11 +20,13 @@ const propTypes = {
   date: PropTypes.string,
   places: PropTypes.array,
   place: PropTypes.string,
+  event: PropTypes.string,
   schedules: PropTypes.array,
   availabilities: PropTypes.object,
   onSportChange: PropTypes.func,
   onDateChange: PropTypes.func,
   onPlaceChange: PropTypes.func,
+  onEventChange: PropTypes.func,
 };
 const defaultProps = {
   sports: [],
@@ -32,17 +35,27 @@ const defaultProps = {
   date: null,
   places: [],
   place: null,
+  event: '',
   schedules: [],
   availabilities: {},
   onSportChange: () => {},
   onDateChange: () => {},
   onPlaceChange: () => {},
+  onEventChange: () => {},
 };
 
 const styles = {
   appBar: {
     position: 'fixed',
     top: '0',
+  },
+  textField: {
+    width: '100%',
+    height: 'auto',
+  },
+  textFieldInput: {
+    fontSize: '24px',
+    color: 'rgba(255, 255, 255, 0.9)',
   },
   cards: {
     marginTop: '70px',
@@ -63,12 +76,16 @@ class MobileRoot extends React.PureComponent {
 
     this.state = {
       drawerOpen: false,
+      searchOpen: false,
     };
     this.handleDrawerIconButtonTouchTap = this.handleDrawerIconButtonTouchTap.bind(this);
+    this.handleSearchIconButtonTouchTap = this.handleSearchIconButtonTouchTap.bind(this);
     this.handleDrawerChange = this.handleDrawerChange.bind(this);
+    this.handleSearchBlur = this.handleSearchBlur.bind(this);
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
+    this.handleEventChange = this.handleEventChange.bind(this);
   }
 
   handleDrawerIconButtonTouchTap() {
@@ -77,10 +94,25 @@ class MobileRoot extends React.PureComponent {
     });
   }
 
+  handleSearchIconButtonTouchTap() {
+    this.setState({
+      searchOpen: true,
+    });
+  }
+
   handleDrawerChange(open) {
     this.setState({
       drawerOpen: open,
     });
+  }
+
+  handleSearchBlur() {
+    const { event } = this.props;
+    if (!event) {
+      this.setState({
+        searchOpen: false,
+      });
+    }
   }
 
   handleSportChange(event, key, value) {
@@ -98,16 +130,33 @@ class MobileRoot extends React.PureComponent {
     scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
   }
 
+  handleEventChange(event, value) {
+    this.props.onEventChange(value);
+    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
+  }
+
   render() {
     const {
       handleDrawerIconButtonTouchTap,
+      handleSearchIconButtonTouchTap,
       handleDrawerChange,
+      handleSearchBlur,
       handleSportChange,
       handleDateChange,
       handlePlaceChange,
     } = this;
-    const { sports, sport, dates, date, places, place, schedules, availabilities } = this.props;
-    const { drawerOpen } = this.state;
+    const {
+      sports,
+      sport,
+      dates,
+      date,
+      places,
+      place,
+      event,
+      schedules,
+      availabilities,
+    } = this.props;
+    const { drawerOpen, searchOpen } = this.state;
 
     const sortedSchedules = this.sortSchedules(schedules);
 
@@ -116,8 +165,26 @@ class MobileRoot extends React.PureComponent {
         <AppBar
           style={styles.appBar}
           title={sport}
+          iconElementRight={searchOpen
+            ? null
+            : <IconButton><SearchIcon /></IconButton>
+          }
           onLeftIconButtonTouchTap={handleDrawerIconButtonTouchTap}
-        />
+          onRightIconButtonTouchTap={handleSearchIconButtonTouchTap}
+        >
+          {searchOpen
+            ? (
+              <TextField
+                style={styles.textField}
+                inputStyle={styles.textFieldInput}
+                value={event}
+                onChange={this.handleEventChange}
+                onBlur={handleSearchBlur}
+              />
+            )
+            : null
+          }
+        </AppBar>
         <div style={styles.cards}>
           <Drawer
             containerStyle={styles.drawerContainer}

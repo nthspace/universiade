@@ -176,11 +176,13 @@ class Root extends React.PureComponent {
               date={date}
               places={places}
               place={place}
+              event={event}
               schedules={schedules}
               availabilities={availabilities}
               onSportChange={handleSportChange}
               onDateChange={handleDateChange}
               onPlaceChange={handlePlaceChange}
+              onEventChange={handleEventChange}
             />
           )
           : (
