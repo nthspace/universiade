@@ -146,7 +146,7 @@ class Root extends React.PureComponent {
         }}>
           如果你跟我們一樣，喜愛運動、熱愛台灣， <br />
           <address>
-            <a href="mailto:webmaster@example.com">歡迎來信交流</a>
+            <a href="mailto:TaiwanNeedU@nthspace.org">歡迎來信交流</a>
           </address>
         </h3>
         <IconButton
