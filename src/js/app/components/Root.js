@@ -79,7 +79,14 @@ class Root extends React.PureComponent {
         <div
           style={styles.contentContainer}
         >
-          <h3>因為種種原因，我們希望這一切可以更好</h3>
+          <h3
+            style={{
+              wordBreak: 'keep-all',
+              textAlign: 'center',
+            }}
+          >
+            因為種種原因，我們希望這一切可以更好
+          </h3>
           <div
             className="row"
             style={{
