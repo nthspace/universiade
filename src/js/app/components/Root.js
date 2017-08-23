@@ -107,7 +107,7 @@ class Root extends React.PureComponent {
           <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <PortraitCard
               src={PicWei}
-              name={'Wei'}
+              name={'Chia-Wei'}
             />
           </div>
           <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
