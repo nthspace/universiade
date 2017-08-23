@@ -8,6 +8,7 @@ import PortraitCard from './PortraidCard';
 import PicWei from '../../../img/dreamcwli.png';
 import PicWen from '../../../img/wendell.jpg';
 import PicAm from '../../../img/amdis.jpg';
+import GitHubIcon from '../../../img/github.svg';
 
 const BANNER_URL = require('../../../img/banner.png');
 const MOTIVATION_URLS = [
@@ -21,6 +22,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: '32px',
   },
   contentContainer: {
     display: 'flex',
@@ -146,8 +148,14 @@ class Root extends React.PureComponent {
           <address>
             <a href="mailto:webmaster@example.com">歡迎來信交流</a>
           </address>
-          <IconButton iconClassName="muidocs-icon-custom-github" />
         </h3>
+        <IconButton
+          href="https://github.com/nthspace/universiade"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={GitHubIcon} width={40} />
+        </IconButton>
       </div>
     );
   }
