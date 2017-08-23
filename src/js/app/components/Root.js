@@ -51,15 +51,17 @@ class Root extends React.PureComponent {
   render(){
     return (
       <div style={styles.root}>
-        <img
-          alt="banner"
-          src={BANNER_URL}
-          width="100%"
-        />
+        <div className="row">
+          <img
+            alt="banner"
+            src={BANNER_URL}
+            width="100%"
+          />
+        </div>
         <div
           style={styles.divider}
         />
-        <div>
+        <div className="row">
           <RaisedButton
             href="./#/schedule"
             label={'找賽程買票去'}
@@ -75,10 +77,15 @@ class Root extends React.PureComponent {
         >
           <h3>因為種種原因，我們希望這一切可以更好</h3>
           <div
-            style={styles.content}
+            className="row"
+            style={{
+              textAlign: 'center',
+            }}
           >
             {MOTIVATION_URLS.map(url => (
-              <img alt="motivation" key={url} src={url} height="400px" />
+              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <img alt="motivation" key={url} src={url} height={400} />
+              </div>
             ))}
           </div>
         </div>
