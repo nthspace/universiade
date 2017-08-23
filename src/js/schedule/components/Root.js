@@ -113,7 +113,11 @@ class Root extends React.PureComponent {
   }
 
   handleDateChange(value) {
-    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.date, value);
+    Tracker.logEvent(
+      GA_EVENT_CATEGORY.filter,
+      `${this.state.sport}-${GA_FILTER_ACTION.date}`,
+      value,
+    );
     this.setState({
       date: value,
     });
