@@ -15,6 +15,10 @@ import {
 
 const propTypes = {
   history: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    query: PropTypes.object,
+  }).isRequired,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
     params: PropTypes.shape({
@@ -32,8 +36,6 @@ class Root extends React.PureComponent {
     super(props);
 
     this.state = {
-      date: null,
-      place: null,
       event: '',
       availabilities: {},
     };
@@ -69,8 +71,6 @@ class Root extends React.PureComponent {
 
     if (sport !== nextSport) {
       this.setState({
-        date: null,
-        place: null,
         event: '',
       });
     }
@@ -108,26 +108,35 @@ class Root extends React.PureComponent {
   handleSportChange(value) {
     const { history } = this.props;
     const { path } = this.props.match;
-    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.sport, value);
     history.push(path.replace(':sport', value));
+
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.sport, value);
   }
 
   handleDateChange(value) {
+    const { history } = this.props;
+    const { pathname, query } = this.props.location;
+    history.push({
+      pathname,
+      query: Object.assign({}, query, { date: value }),
+    });
+
     Tracker.logEvent(
       GA_EVENT_CATEGORY.filter,
       `${this.state.sport}-${GA_FILTER_ACTION.date}`,
       value,
     );
-    this.setState({
-      date: value,
-    });
   }
 
   handlePlaceChange(value) {
-    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.arena, value);
-    this.setState({
-      place: value,
+    const { history } = this.props;
+    const { pathname, query } = this.props.location;
+    history.push({
+      pathname,
+      query: Object.assign({}, query, { place: value }),
     });
+
+    Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.arena, value);
   }
 
   handleEventChange(value) {
@@ -138,8 +147,9 @@ class Root extends React.PureComponent {
 
   render() {
     const { handleSportChange, handleDateChange, handlePlaceChange, handleEventChange } = this;
+    const { date, place } = this.props.location.query;
     const { sport } = this.props.match.params;
-    const { date, place, event, availabilities } = this.state;
+    const { event, availabilities } = this.state;
     const sports = Object.keys(this.props.schedules);
     const dates = this.props.schedules[sport]
       ? this.props.schedules[sport]
