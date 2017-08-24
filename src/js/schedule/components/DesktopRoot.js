@@ -185,6 +185,7 @@ class DesktopRoot extends React.PureComponent {
         <Table height="calc(100vh - 145px)">
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
+              <TableHeaderColumn>競賽</TableHeaderColumn>
               <TableHeaderColumn>日期</TableHeaderColumn>
               <TableHeaderColumn>時間</TableHeaderColumn>
               <TableHeaderColumn>活動</TableHeaderColumn>
@@ -203,6 +204,7 @@ class DesktopRoot extends React.PureComponent {
                   }
                 }}
               >
+                <TableRowColumn>{(this.props.sport)}</TableRowColumn>
                 <TableRowColumn>{withDay(element.date)}</TableRowColumn>
                 <TableRowColumn>{element.time}</TableRowColumn>
                 <TableRowColumn>{element.event}</TableRowColumn>
