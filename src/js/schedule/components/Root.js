@@ -36,6 +36,7 @@ class Root extends React.PureComponent {
     super(props);
 
     this.state = {
+      place: null,
       event: '',
       availabilities: {},
     };
@@ -129,11 +130,8 @@ class Root extends React.PureComponent {
   }
 
   handlePlaceChange(value) {
-    const { history } = this.props;
-    const { pathname, query } = this.props.location;
-    history.push({
-      pathname,
-      query: Object.assign({}, query, { place: value }),
+    this.setState({
+      place: value,
     });
 
     Tracker.logEvent(GA_EVENT_CATEGORY.filter, GA_FILTER_ACTION.arena, value);
@@ -147,9 +145,9 @@ class Root extends React.PureComponent {
 
   render() {
     const { handleSportChange, handleDateChange, handlePlaceChange, handleEventChange } = this;
-    const { date, place } = this.props.location.query;
+    const { date } = this.props.location.query;
     const { sport } = this.props.match.params;
-    const { event, availabilities } = this.state;
+    const { place, event, availabilities } = this.state;
     const sports = Object.keys(this.props.schedules);
     const dates = this.props.schedules[sport]
       ? this.props.schedules[sport]
