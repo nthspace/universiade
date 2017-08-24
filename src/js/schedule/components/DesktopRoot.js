@@ -198,7 +198,7 @@ class DesktopRoot extends React.PureComponent {
           <TableBody displayRowCheckbox={false} showRowHover>
             {sortedSchedules.map((element, index) => (
               <TableRow
-                key={`${element.date}|${element.time}|${element.place}`}
+                key={`${element.date}|${element.time}|${element.event}|${element.gender}`}
                 ref={(node) => {
                   if (index === 0) {
                     this.scrollAnchor = node;

@@ -171,7 +171,7 @@ class Root extends React.PureComponent {
             sport: key,
           })),
         )
-        .reduce((accumulator, value) => [].concat(accumulator, value))
+        .reduce((accumulator, value) => [].concat(accumulator, value), [])
       : this.props.schedules[sport] || [];
     const sports = Object.keys(this.props.schedules);
     const dates = schedules.reduce((accumulator, value) => {

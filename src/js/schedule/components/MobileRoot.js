@@ -238,7 +238,7 @@ class MobileRoot extends React.PureComponent {
           </Drawer>
           {sortedSchedules.map((element, index) => (
             <ScheduleCard
-              key={`${element.date}|${element.time}|${element.place}`}
+              key={`${element.date}|${element.time}|${element.event}|${element.gender}`}
               schedule={Object.assign({}, element, {
                 sport: element.sport || sport,
               })}
