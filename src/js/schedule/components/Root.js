@@ -166,7 +166,11 @@ class Root extends React.PureComponent {
     const { place, event, availabilities } = this.state;
     const schedules = sport === '全部'
       ? Object.keys(this.props.schedules)
-        .map(key => this.props.schedules[key])
+        .map(key => this.props.schedules[key]
+          .map(element => Object.assign({}, element, {
+            sport: key,
+          })),
+        )
         .reduce((accumulator, value) => [].concat(accumulator, value))
       : this.props.schedules[sport] || [];
     const sports = Object.keys(this.props.schedules);
