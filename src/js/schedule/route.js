@@ -13,7 +13,7 @@ const propTypes = {
 const route = ({ match }) => (
   <Switch>
     <Route path={`${match.url}/:sport`} component={Root} />
-    <Redirect to={`${match.url}/籃球`} />
+    <Redirect to={`${match.url}/全部?date=${(new Date()).toJSON().substr(0, 10)}`} />
   </Switch>
 );
 
