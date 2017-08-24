@@ -110,6 +110,8 @@ export default {
   },
   plugins,
   devServer: {
+    disableHostCheck: true,
+    host: '0.0.0.0',
     hot: true,
   },
 };

@@ -49,8 +49,9 @@ const styles = {
     background: 'rgba(201, 201, 216, 0.68)',
   },
   longText: {
-    display: 'inline-block',
-    wordBreak: 'keep-all',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     textAlign: 'center',
   },
 };
@@ -89,8 +90,14 @@ class Root extends React.PureComponent {
         >
           <h3
             style={styles.longText}
+            className="row"
           >
-            因為種種原因，我們希望這一切可以更好
+            <div
+              className="col-xs-10"
+              style={styles.longText}
+            >
+              因為種種原因，我們希望這一切可以更好
+            </div>
           </h3>
           <div
             className="row"
@@ -143,6 +150,7 @@ class Root extends React.PureComponent {
           style={styles.divider}
         />
         <h3
+          className="col-xs-10"
           style={styles.longText}
         >
           如果你跟我們一樣，喜愛運動、熱愛台灣， <br />
