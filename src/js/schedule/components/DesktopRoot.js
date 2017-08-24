@@ -205,7 +205,7 @@ class DesktopRoot extends React.PureComponent {
                   }
                 }}
               >
-                <TableRowColumn>{(this.props.sport)}</TableRowColumn>
+                <TableRowColumn>{element.sport || sport}</TableRowColumn>
                 <TableRowColumn>{withDay(element.date)}</TableRowColumn>
                 <TableRowColumn>{element.time}</TableRowColumn>
                 <TableRowColumn>{element.event}</TableRowColumn>
