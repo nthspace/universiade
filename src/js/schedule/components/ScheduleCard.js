@@ -62,7 +62,7 @@ const ScheduleCard = ({ schedule, available }) => (
     />
     <CardTitle
       subtitleStyle={styles.cardSubtitle}
-      title={schedule.event}
+      title={`${schedule.sport}/${schedule.event}`}
       subtitle={schedule.place}
     />
     {isScheduleActive(schedule) && schedule.link

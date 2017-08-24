@@ -238,7 +238,9 @@ class MobileRoot extends React.PureComponent {
           {sortedSchedules.map((element, index) => (
             <ScheduleCard
               key={`${element.date}|${element.time}|${element.place}`}
-              schedule={element}
+              schedule={
+                Object.assign({}, element, { sport : this.props.sport})
+              }
               available={!(element.link in availabilities) || availabilities[element.link]}
               ref={(node) => {
                 if (index === 0) {
