@@ -48,6 +48,11 @@ const styles = {
     height: '5px',
     background: 'rgba(201, 201, 216, 0.68)',
   },
+  longText: {
+    display: 'inline-block',
+    wordBreak: 'keep-all',
+    textAlign: 'center',
+  },
 };
 
 class Root extends React.PureComponent {
@@ -83,10 +88,7 @@ class Root extends React.PureComponent {
           style={styles.contentContainer}
         >
           <h3
-            style={{
-              wordBreak: 'keep-all',
-              textAlign: 'center',
-            }}
+            style={styles.longText}
           >
             因為種種原因，我們希望這一切可以更好
           </h3>
@@ -140,10 +142,9 @@ class Root extends React.PureComponent {
         <div
           style={styles.divider}
         />
-        <h3 style={{
-          textAlign: 'center',
-          wordBreak: 'keep-all',
-        }}>
+        <h3
+          style={styles.longText}
+        >
           如果你跟我們一樣，喜愛運動、熱愛台灣， <br />
           <address>
             <a href="mailto:TaiwanNeedsU@nthspace.org">歡迎來信交流</a>
