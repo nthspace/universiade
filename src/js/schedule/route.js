@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import moment from 'moment';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Root from './containers/RootContainer';
@@ -13,7 +14,7 @@ const propTypes = {
 const route = ({ match }) => (
   <Switch>
     <Route path={`${match.url}/:sport`} component={Root} />
-    <Redirect to={`${match.url}/全部?date=${(new Date()).toJSON().substr(0, 10)}`} />
+    <Redirect to={`${match.url}/全部?date=${moment().format('YYYY-MM-DD')}`} />
   </Switch>
 );
 
