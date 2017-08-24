@@ -93,7 +93,7 @@ class Root extends React.PureComponent {
             className="row"
           >
             <div
-              className="col-xs-10"
+              className="col-xs-10 col-sm-12 col-md-12 col-lg-12"
               style={styles.longText}
             >
               因為種種原因，我們希望這一切可以更好
