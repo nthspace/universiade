@@ -127,6 +127,7 @@ class DesktopRoot extends React.PureComponent {
               value={sport}
               onChange={handleSportChange}
             >
+              <MenuItem value="全部" primaryText="全部" />
               {sports.map(element => (
                 <MenuItem key={element} value={element} primaryText={element} />
               ))}

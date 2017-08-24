@@ -40,6 +40,7 @@ class Root extends React.PureComponent {
       event: '',
       availabilities: {},
     };
+    this.filterSchedules = this.filterSchedules.bind(this);
     this.checkLinkAvailability = this.checkLinkAvailability.bind(this);
     this.handleSportChange = this.handleSportChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -91,6 +92,15 @@ class Root extends React.PureComponent {
         this.checkLinkAvailability(value);
       });
     }
+  }
+
+  filterSchedules(schedules) {
+    const { date } = this.props.location.query;
+    const { place, event } = this.state;
+    return schedules
+      .filter(element => !date || element.date === date)
+      .filter(element => !place || element.place === place)
+      .filter(element => !event || element.event.includes(event));
   }
 
   checkLinkAvailability(link) {
@@ -148,31 +158,24 @@ class Root extends React.PureComponent {
     const { date } = this.props.location.query;
     const { sport } = this.props.match.params;
     const { place, event, availabilities } = this.state;
+    const schedules = sport === '全部'
+      ? Object.keys(this.props.schedules)
+        .map(key => this.props.schedules[key])
+        .reduce((accumulator, value) => [].concat(accumulator, value))
+      : this.props.schedules[sport] || [];
     const sports = Object.keys(this.props.schedules);
-    const dates = this.props.schedules[sport]
-      ? this.props.schedules[sport]
-        .reduce((accumulator, value) => {
-          if (!accumulator.includes(value.date)) {
-            accumulator.push(value.date);
-          }
-          return accumulator;
-        }, [])
-      : [];
-    const places = this.props.schedules[sport]
-      ? this.props.schedules[sport]
-        .reduce((accumulator, value) => {
-          if (!accumulator.includes(value.place)) {
-            accumulator.push(value.place);
-          }
-          return accumulator;
-        }, [])
-      : [];
-    const schedules = this.props.schedules[sport]
-      ? this.props.schedules[sport]
-        .filter(element => !date || element.date === date)
-        .filter(element => !place || element.place === place)
-        .filter(element => !event || element.event.includes(event))
-      : [];
+    const dates = schedules.reduce((accumulator, value) => {
+      if (!accumulator.includes(value.date)) {
+        accumulator.push(value.date);
+      }
+      return accumulator;
+    }, []).sort();
+    const places = schedules.reduce((accumulator, value) => {
+      if (!accumulator.includes(value.place)) {
+        accumulator.push(value.place);
+      }
+      return accumulator;
+    }, []).sort();
     return (
       <Media query={{ maxDeviceWidth: 768 }}>
         {matches => (matches
