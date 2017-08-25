@@ -1,17 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { AppBar, Drawer, IconButton, MenuItem, SelectField, TextField } from 'material-ui';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 
 import ScheduleCard from './ScheduleCard';
-import {
-  withDay,
-  scrollNodeIntoView,
-  todayInitDate,
-  sortSchedules,
-} from '../utils';
+import { withDay, todayInitDate, sortSchedules } from '../utils';
 
 const propTypes = {
   sports: PropTypes.array,
@@ -117,22 +111,22 @@ class MobileRoot extends React.PureComponent {
 
   handleSportChange(event, key, value) {
     this.props.onSportChange(value);
-    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
+    window.scrollTo(0, 0);
   }
 
   handleDateChange(event, key, value) {
     this.props.onDateChange(value);
-    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
+    window.scrollTo(0, 0);
   }
 
   handlePlaceChange(event, key, value) {
     this.props.onPlaceChange(value);
-    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
+    window.scrollTo(0, 0);
   }
 
   handleEventChange(event, value) {
     this.props.onEventChange(value);
-    scrollNodeIntoView(ReactDOM.findDOMNode(this.scrollAnchor));
+    window.scrollTo(0, 0);
   }
 
   render() {
