@@ -31,6 +31,18 @@ const defaultProps = {
   schedules: {},
 };
 
+const getSchedulesBySport = schedules => (sport) => {
+  if (sport === '全部') {
+    return Object.keys(schedules)
+        .map(key => schedules[key]
+          .map(element => Object.assign({}, element, {
+            sport: key,
+          })))
+        .reduce((accumulator, value) => [].concat(accumulator, value), []);
+  }
+  return schedules[sport];
+};
+
 class Root extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -51,14 +63,18 @@ class Root extends React.PureComponent {
   componentDidMount() {
     const { schedules } = this.props;
     const { sport } = this.props.match.params;
-    const links = schedules[sport]
-      ? schedules[sport].reduce((accumulator, value) => {
+
+    const schedulesGetter = getSchedulesBySport(schedules);
+
+    const links = schedulesGetter(sport)
+      ? schedulesGetter(sport).reduce((accumulator, value) => {
         if (value.link && !accumulator.includes(value.link)) {
           accumulator.push(value.link);
         }
         return accumulator;
       }, [])
       : [];
+
     links.forEach((value) => {
       this.checkLinkAvailability(value);
     });
@@ -80,14 +96,17 @@ class Root extends React.PureComponent {
     if (Object.keys(schedules).length !== Object.keys(nextSchedules).length
       || sport !== nextSport) {
       const { availabilities } = this.state;
-      const links = nextSchedules[nextSport]
-        ? nextSchedules[nextSport].reduce((accumulator, value) => {
+
+      const nextSchedulesGetter = getSchedulesBySport(nextSchedules);
+      const links = nextSchedulesGetter(nextSport)
+        ? nextSchedulesGetter(nextSport).reduce((accumulator, value) => {
           if (value.link && !(value.link in availabilities) && !accumulator.includes(value.link)) {
             accumulator.push(value.link);
           }
           return accumulator;
         }, [])
         : [];
+
       links.forEach((value) => {
         this.checkLinkAvailability(value);
       });
