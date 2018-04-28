@@ -9,6 +9,6 @@ features.forEach((feature) => {
   reducers[feature.constants.NAME] = feature.reducer;
 });
 reducers.firebase = firebaseStateReducer;
-reducers.routing = routerReducer;
+reducers.router = routerReducer;
 
 export default combineReducers(reducers);

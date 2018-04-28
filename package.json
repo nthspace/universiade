@@ -4,24 +4,32 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
-    "deploy": "git subtree push -P dist origin gh-pages",
+    "deploy": "git push -f origin `git subtree split --prefix dist develop`:gh-pages",
     "develop": "webpack-dashboard -- webpack-dev-server",
     "lint": "eslint src"
   },
   "dependencies": {
-    "history": "^4.6.1",
+    "file-loader": "^0.11.2",
+    "history": "^4.7.1",
+    "material-ui": "^0.19.0",
+    "moment": "^2.18.1",
     "prop-types": "^15.5.8",
+    "qhistory": "^1.0.0",
+    "qs": "^6.5.0",
     "react": "^15.5.4",
     "react-css-modules": "^4.0.5",
     "react-dom": "^15.5.4",
+    "react-ga": "^2.2.0",
     "react-hot-loader": "next",
+    "react-media": "^1.6.1",
     "react-redux": "^5.0.4",
     "react-redux-firebase": "^1.5.0-alpha",
     "react-router-dom": "^4.1.1",
-    "react-router-redux": "^4.0.8",
+    "react-router-redux": "next",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

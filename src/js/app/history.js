@@ -1,8 +1,9 @@
 import { createHashHistory as createHistory } from 'history';
-import { syncHistoryWithStore } from 'react-router-redux';
+import qhistory from 'qhistory';
+import { parse, stringify } from 'qs';
 
-import store from './store';
-
-const history = createHistory();
-
-export default syncHistoryWithStore(history, store);
+export default qhistory(
+  createHistory(),
+  stringify,
+  parse,
+);

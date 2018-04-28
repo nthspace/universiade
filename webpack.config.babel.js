@@ -13,7 +13,8 @@ const plugins = [
     logo: './src/img/logo.png',
   }),
   new HtmlWebpackPlugin({
-    title: 'Vet',
+    template: './src/ejs/index.ejs',
+    title: '2017 世大運賽程資訊',
   }),
 ];
 if (process.env.NODE_ENV !== 'production') {
@@ -98,10 +99,19 @@ export default {
           },
         ],
       },
+      {
+        test: /\.(png|jpe?g|ico|svg|gif)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]',
+        },
+      },
     ],
   },
   plugins,
   devServer: {
+    disableHostCheck: true,
+    host: '0.0.0.0',
     hot: true,
   },
 };
